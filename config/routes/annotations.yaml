@@ -1,0 +1,14 @@
+site_controllers:
+    resource: ../../src/Controller/Site
+    type: annotation
+    name_prefix: 'site_'
+
+cms_controllers:
+    resource: ../../src/Controller/Cms
+    type: annotation
+    prefix: '/cms'
+    name_prefix: 'cms_'
+
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation

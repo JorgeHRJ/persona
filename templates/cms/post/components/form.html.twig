@@ -1,0 +1,39 @@
+{{ form_start(form, {'attr': {'class': 'mt-1', 'autocomplete': 'off'}}) }}
+    <div class="row">
+    <div class="mb-3">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+    <div class="row">
+    <div class="col-9">
+        <div class="mb-3">
+            {{ form_label(form.content) }}
+            {{ form_widget(form.content) }}
+            <div class="mt-2"
+                 data-component="editor"
+                 data-target="{{ "##{form.content.vars.id}" }}">
+            </div>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="mb-3">
+            {{ form_label(form.publishedAt) }}
+            {{ form_widget(form.publishedAt, {'attr': {'class': 'form-control'}}) }}
+            <small>{{ form_help(form.publishedAt) }}</small>
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.category) }}
+            {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.tags) }}
+            {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
+        </div>
+    </div>
+</div>
+    <div class="row">
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</div>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}

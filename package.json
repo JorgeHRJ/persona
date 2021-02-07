@@ -1,0 +1,42 @@
+{
+    "devDependencies": {
+        "@symfony/stimulus-bridge": "^2.0.0",
+        "@symfony/webpack-encore": "^1.0.0",
+        "core-js": "^3.8.3",
+        "node-sass": "^5.0.0",
+        "regenerator-runtime": "^0.13.7",
+        "sass-loader": "^11.0.0",
+        "stimulus": "^2.0.0",
+        "webpack-notifier": "^1.13.0"
+    },
+    "license": "UNLICENSED",
+    "private": true,
+    "scripts": {
+        "dev-server": "encore dev-server",
+        "dev": "encore dev",
+        "watch": "encore dev --watch",
+        "dev-cms": "encore dev --config-name cms",
+        "watch-cms": "encore dev --watch --config-name cms ",
+        "dev-site": "encore dev --config-name site",
+        "watch-site": "encore dev --watch --config-name site",
+        "build": "encore production --progress"
+    },
+    "dependencies": {
+        "@editorjs/editorjs": "^2.19.1",
+        "@editorjs/header": "^2.6.1",
+        "@editorjs/list": "^1.6.2",
+        "@fortawesome/fontawesome-free": "5.15.1",
+        "@popperjs/core": "^2.5.4",
+        "bootstrap": "^5.0.0-alpha2",
+        "eslint": "^5.6.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.14.0",
+        "feather-icons": "4.28.0",
+        "file-loader": "^6.0.0",
+        "flatpickr": "^4.6.9",
+        "notyf": "^3.9.0",
+        "pace": "0.0.4",
+        "pace-js": "^1.0.2",
+        "simplebar": "5.3.0"
+    }
+}

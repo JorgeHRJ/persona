@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Nuevo artículo',
+    'header': 'Nuevo artículo',
+    'subheader': 'Rellena el formulario para crear un nuevo artículo',
+    'breadcrumbs': [
+        {
+            'name': 'Artículos',
+            'path': path('cms_post_index')
+        },
+        {
+            'name': 'Nuevo artículo',
+            'main': true
+        }
+    ]
+} %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/post/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

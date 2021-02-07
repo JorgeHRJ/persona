@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Persona CMS | {{ get_title() }}</title>
+
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    {% block stylesheets %}
+        <link type="text/css" rel="stylesheet" href="{{ preload(asset('build/cms/cms.css', 'cms'), {as: 'style'}) }}"/>
+    {% endblock %}
+</head>
+<body class="app {{ get_body_class() }}" {{ get_body_attr() }}>
+{% block body %}{% endblock %}
+
+{% block translations %}{% endblock %}
+
+{% for js_file in encore_entry_js_files('cms', 'cms') %}
+    <script src="{{ preload(asset(js_file, 'cms'), {as: 'script'}) }}"></script>
+{% endfor %}
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>

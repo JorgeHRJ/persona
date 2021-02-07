@@ -1,0 +1,19 @@
+{% extends 'cms/base.html.twig' %}
+
+{% block body %}
+    {{ include('cms/components/flash.html.twig') }}
+    <div class="wrapper">
+        {{ include('cms/components/sidebar.html.twig') }}
+        <div class="main">
+            {{ include('cms/components/topbar.html.twig') }}
+            <main class="content">
+                <div class="container-fluid p-0">
+                    {{ include('cms/components/breadcrumbs.html.twig') }}
+                    {{ include('cms/components/header.html.twig') }}
+                    {% block content %}{% endblock %}
+                </div>
+            </main>
+            {{ include('cms/components/footer.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

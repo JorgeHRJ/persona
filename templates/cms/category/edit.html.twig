@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Editar categoría',
+    'header': 'Editar categoría',
+    'subheader': 'Rellena el formulario para editar una categoría',
+    'breadcrumbs': [
+    {
+        'name': 'Categorías',
+        'path': path('cms_category_index')
+    },
+    {
+        'name': 'Editar categoría',
+        'main': true
+    }
+]
+    } %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/category/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

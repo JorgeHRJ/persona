@@ -1,0 +1,3 @@
+cms_security_logout:
+  path: /cms/logout
+  methods: GET

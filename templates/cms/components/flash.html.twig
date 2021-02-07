@@ -1,0 +1,7 @@
+{% for flash_message in app.session.flashbag.get('app_error') %}
+    <div class="hide" data-component="notification" data-type="error">{{ flash_message|raw }}</div>
+{% endfor %}
+
+{% for flash_message in app.session.flashbag.get('app_success') %}
+    <div class="hide" data-component="notification" data-type="success">{{ flash_message|raw }}</div>
+{% endfor %}

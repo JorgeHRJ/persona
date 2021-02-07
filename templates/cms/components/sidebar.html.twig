@@ -1,0 +1,21 @@
+<nav id="sidebar" class="sidebar">
+    <div class="sidebar-content" data-component="simplebar">
+        <a class="sidebar-brand text-center" href="{{ path('cms_dashboard_index') }}">
+            <span class="align-middle">Persona CMS</span>
+        </a>
+        <ul class="sidebar-nav">
+            {% set menu = get_menu() %}
+            {% for group in menu %}
+                <li class="sidebar-header">{{ group.title }}</li>
+                {% for item in group.items %}
+                    <li class="sidebar-item {{ item.isActive ? 'active' }}">
+                        <a class="sidebar-link" href="{{ path(item.routeName) }}">
+                            <i class="{{ item.icon }}"></i>
+                            <span class="align-middle">{{ item.title }}</span>
+                        </a>
+                    </li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

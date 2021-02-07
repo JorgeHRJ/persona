@@ -1,0 +1,8 @@
+{{ form_start(form, {'attr': {'class': 'mt-1', 'autocomplete': 'off'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}
