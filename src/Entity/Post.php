@@ -24,6 +24,7 @@ class Post
      *
      * @ORM\Id
      * @ORM\GeneratedValue
+     *
      * @ORM\Column(name="post_id", type="integer", nullable=false)
      */
     private $id;
@@ -91,6 +92,14 @@ class Post
      * )
      */
     private $tags;
+
+    /**
+     * @var Asset|null
+     *
+     * @ORM\OneToOne(targetEntity=Asset::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="post_image", referencedColumnName="asset_id")
+     */
+    private $image;
 
     /**
      * @var \DateTimeInterface|null
@@ -201,5 +210,17 @@ class Post
     public function getTags(): ?Collection
     {
         return $this->tags;
+    }
+
+    public function getImage(): ?Asset
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Asset $image): self
+    {
+        $this->image = $image;
+
+        return $this;
     }
 }

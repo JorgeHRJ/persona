@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Library\Traits\Entity\TimestampableTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -92,6 +94,21 @@ class User implements UserInterface
      * @ORM\Column(name="user_modified_at", type="datetime", nullable=true)
      */
     private $modifiedAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $profile;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $experiences;
+
+    public function __construct()
+    {
+        $this->experiences = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -200,5 +217,52 @@ class User implements UserInterface
     public function setStatus(?int $status): void
     {
         $this->status = $status;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->profile;
+    }
+
+    public function setProfile(Profile $profile): self
+    {
+        // set the owning side of the relation if necessary
+        if ($profile->getUser() !== $this) {
+            $profile->setUser($this);
+        }
+
+        $this->profile = $profile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Experience[]
+     */
+    public function getExperiences(): Collection
+    {
+        return $this->experiences;
+    }
+
+    public function addExperience(Experience $experience): self
+    {
+        if (!$this->experiences->contains($experience)) {
+            $this->experiences[] = $experience;
+            $experience->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExperience(Experience $experience): self
+    {
+        if ($this->experiences->removeElement($experience)) {
+            // set the owning side to null (unless already changed)
+            if ($experience->getUser() === $this) {
+                $experience->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -16,3 +16,8 @@ services:
     App\Controller\:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
+
+    App\Library\Maker\MakeEntityBeautify:
+        tags: ['maker.command']
+        arguments:
+            $projectDir: '%kernel.project_dir%'

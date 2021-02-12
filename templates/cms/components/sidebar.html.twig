@@ -1,8 +1,9 @@
 <nav id="sidebar" class="sidebar">
     <div class="sidebar-content" data-component="simplebar">
         <a class="sidebar-brand text-center" href="{{ path('cms_dashboard_index') }}">
-            <span class="align-middle">Persona CMS</span>
+            <span class="align-middle">Persona</span>
         </a>
+        <hr>
         <ul class="sidebar-nav">
             {% set menu = get_menu() %}
             {% for group in menu %}
