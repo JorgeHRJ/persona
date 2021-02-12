@@ -104,13 +104,16 @@ docker run -it -v $(pwd):/home/app persona-node yarn encore watch-cms
 docker run -it -v $(pwd):/home/app persona-node yarn encore watch-site
 ```
 
-## Code quality
+## Qualitify
+[Qualitify](https://github.com/JorgeHRJ/qualitify) is a bash script which uses a set of code quality tools
+for PHP and Symfony projects like this.
+
 ```bash
 docker exec -it persona-php bin/qualitify.sh
 ```
 
 ## Manager
-There is a bash script in order to perform some common tasks, such as up and down your dockers, build assets, etc.
+[Manager](bin/manager) is a bash script in order to perform some common tasks, such as up and down your dockers, build assets, etc.
 ```bash
 bin/manager <task>
 ```
