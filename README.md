@@ -1,12 +1,20 @@
 # Persona
 
+![Continuous Integration](https://github.com/JorgeHRJ/persona/workflows/Continuous%20Integration/badge.svg)
+
+Persona is a small CMS developed to have a personal portfolio + blog combination. In the portfolio you can show 
+your personal information in addition to your education, work experience, projects made and skills. The blog is very
+simple but powerful in order to have a small place where you may write your pieces.
+
 Stack:
 - Symfony 5.2
 - PHP 7.4 + mariaDB + nginx
 
 ## Requirements
 
-Please make sure you have the following software installed. If not, please, install them:
+You can download or fork this project if you want.
+You can install it locally. In order to do that, please make sure you have the following software installed. If not, 
+please, install them:
 
 * [Docker](https://docs.docker.com/install/)
 * [Docker Compose](https://docs.docker.com/compose/install/)
@@ -101,6 +109,15 @@ docker run -it -v $(pwd):/home/app persona-node yarn encore watch-site
 docker exec -it persona-php bin/qualitify.sh
 ```
 
+## Manager
+There is a bash script in order to perform some common tasks, such as up and down your dockers, build assets, etc.
+```bash
+bin/manager <task>
+```
+
+## GitHub Actions
+Project has a GitHub Action for Continuous Integration. You can look at it in the following file:
+[continuous-integration.yml](.github/workflows/continuous-integration.yml)
 
 #### That's all!
  
