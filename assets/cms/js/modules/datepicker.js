@@ -1,10 +1,14 @@
 import flatpickr from "flatpickr";
 
 function initDatepicker(element) {
+  const format = element.dataset.format ? element.dataset.format : 'd/m/Y H:i';
+  const time = !!element.dataset.time;
+
   flatpickr(element, {
     allowInput: true,
-    enableTime: true,
-    dateFormat: "d/m/Y H:i",
+    enableTime: time,
+    dateFormat: format,
+    monthSelectorType: 'static'
   });
 }
 

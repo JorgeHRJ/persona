@@ -48,21 +48,21 @@ class Experience
     /**
      * @var string|null
      *
-     * @Assert\NotBlank(message="El año de comienzo no puede estar vacío")
-     * @Assert\Length(min=4, max=4, maxMessage="El año de comienzo debe tener {{ limit }} caracteres")
+     * @Assert\NotBlank(message="El año y mes de comienzo no puede estar vacío")
+     * @Assert\Length(min=7, max=7, maxMessage="El año y mes de comienzo debe tener {{ limit }} caracteres")
      *
-     * @ORM\Column(name="experience_year_started", type="string", length=4, nullable=false)
+     * @ORM\Column(name="experience_monthyear_started", type="string", length=7, nullable=false)
      */
-    private $yearStarted;
+    private $monthYearStarted;
 
     /**
      * @var string|null
      *
-     * @Assert\Length(min=4, max=4, maxMessage="El año de finalización debe tener {{ limit }} caracteres")
+     * @Assert\Length(min=7, max=7, maxMessage="El año de finalización debe tener {{ limit }} caracteres")
      *
-     * @ORM\Column(name="experience_year_ended", type="string", length=4, nullable=true)
+     * @ORM\Column(name="experience_monthyear_ended", type="string", length=7, nullable=true)
      */
-    private $yearEnded;
+    private $monthYearEnded;
 
     /**
      * @var string|null
@@ -128,26 +128,26 @@ class Experience
         return $this;
     }
 
-    public function getYearStarted(): ?string
+    public function getMonthYearStarted(): ?string
     {
-        return $this->yearStarted;
+        return $this->monthYearStarted;
     }
 
-    public function setYearStared(\DateTimeInterface $yearStarted): self
+    public function setMonthYearStarted(string $monthYearStarted): self
     {
-        $this->yearStarted = $yearStarted;
+        $this->monthYearStarted = $monthYearStarted;
 
         return $this;
     }
 
-    public function getYearEnded(): ?string
+    public function getMonthYearEnded(): ?string
     {
-        return $this->yearEnded;
+        return $this->monthYearEnded;
     }
 
-    public function setYearEnded(?string $yearEnded): self
+    public function setMonthYearEnded(?string $monthYearEnded): self
     {
-        $this->yearEnded = $yearEnded;
+        $this->monthYearEnded = $monthYearEnded;
 
         return $this;
     }

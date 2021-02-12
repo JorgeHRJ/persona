@@ -1,0 +1,26 @@
+{{ form_start(form, {'attr': {'class': 'mt-1', 'autocomplete': 'off'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.position) }}
+        {{ form_widget(form.position, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.company) }}
+        {{ form_widget(form.company, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.monthYearStarted) }}
+        {{ form_widget(form.monthYearStarted, {'attr': {'class': 'form-control'}}) }}
+        <small>{{ form_help(form.monthYearStarted) }}</small>
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.monthYearEnded) }}
+        {{ form_widget(form.monthYearEnded, {'attr': {'class': 'form-control'}}) }}
+        <small>{{ form_help(form.monthYearEnded) }}</small>
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}

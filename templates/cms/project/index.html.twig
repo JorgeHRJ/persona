@@ -1,0 +1,80 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Proyectos',
+    'header': 'Proyectos',
+    'subheader': 'Listado de proyectos actualmente creados',
+    'breadcrumbs': [
+        {
+            'name': 'Proyectos',
+            'main': true
+        }
+    ],
+    'utilities': 'cms/project/components/utilities.html.twig'
+    } %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if data is empty %}
+                        {{ include('cms/components/no-results.html.twig') }}
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                {% if dir == 'asc' %}
+                                    {% set dir_class = '-up' %}
+                                    {% set new_dir = 'desc' %}
+                                {% elseif dir == 'desc' %}
+                                    {% set dir_class = '-down' %}
+                                    {% set new_dir = 'asc' %}
+                                {% else %}
+                                    {% set dir_class = '' %}
+                                    {% set new_dir = '' %}
+                                {% endif %}
+                                {% set filter_query = get_filter_query(params, ['f']) %}
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                    <th>Demo</th>
+                                    <th>Año</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for project in data %}
+                                    <tr>
+                                        <td>{{ project.id }}</td>
+                                        <td>{{ project.name }}</td>
+                                        <td>{{ project.type }}</td>
+                                        <td>{{ project.demo|default('-') }}</td>
+                                        <td>{{ project.year }}</td>
+                                        <td class="table-action">
+                                            <a href="{{ path('cms_project_edit', {'id': project.id}) }}"
+                                               title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ path('cms_project_remove', {'id': project.id}) }}"
+                                               title="Eliminar">
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ include(
+                            'cms/components/pagination.html.twig',
+                            paginationData|merge({'params': params, 'dir_class': dir_class, 'new_dir': new_dir, 'fitler_query': filter_query}),
+                            false
+                        ) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

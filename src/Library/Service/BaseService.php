@@ -14,15 +14,18 @@ abstract class BaseService
     /** @var LoggerInterface */
     protected $logger;
 
+    /** @var BaseRepository */
+    protected $repository;
+
     public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $this->entityManager = $entityManager;
         $this->logger = $logger;
+        $this->repository = $entityManager->getRepository($this->getEntityClass());
     }
 
     abstract public function getSortFields(): array;
-    abstract public function getRepository(): BaseRepository;
-
+    abstract public function getEntityClass(): string;
     /**
      * @param object $entity
      * @return object
@@ -90,7 +93,7 @@ abstract class BaseService
      */
     public function get(int $id)
     {
-        return $this->getRepository()->findOneBy(['id' => $id]);
+        return $this->repository->findOneBy(['id' => $id]);
     }
 
     /**
@@ -116,8 +119,8 @@ abstract class BaseService
 
         $offset = $page !== null && $limit !== null ? ($page - 1) * $limit : null;
 
-        $entities = $this->getRepository()->getAll($filter, $orderBy, $limit, $offset);
-        $total = $this->getRepository()->getAllCount($filter);
+        $entities = $this->repository->getAll($filter, $orderBy, $limit, $offset);
+        $total = $this->repository->getAllCount($filter);
 
         return ['total' => $total, 'data' => $entities];
     }
@@ -127,6 +130,6 @@ abstract class BaseService
      */
     public function getAllCount(): int
     {
-        return $this->getRepository()->getAllCount(null);
+        return $this->repository->getAllCount(null);
     }
 }

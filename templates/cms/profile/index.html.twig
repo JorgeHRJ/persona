@@ -1,0 +1,25 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Perfil',
+    'header': 'Tu perfil público',
+    'subheader': 'Rellena el formulario para dar forma a tu perfil público',
+    'breadcrumbs': [
+        {
+            'name': 'Perfil',
+            'main': true
+        }
+    ]
+} %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/profile/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

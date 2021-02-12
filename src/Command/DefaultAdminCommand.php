@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Component\Console\Command\Command;
@@ -46,6 +47,10 @@ class DefaultAdminCommand extends Command
             $user->setStatus(User::ENABLED_STATUS);
             $user->setRoles([User::ROLE_ADMIN]);
             $user->setPassword($this->encoder->encodePassword($user, '0e842b75e5f8473161ee799ef5a129fd'));
+
+            $profile = new Profile();
+            $profile->setTitle('Admin');
+            $user->setProfile($profile);
 
             $this->userService->create($user);
 

@@ -133,7 +133,7 @@ class Education
         return $this->yearStarted;
     }
 
-    public function setYearStared(\DateTimeInterface $yearStarted): self
+    public function setYearStarted(string $yearStarted): self
     {
         $this->yearStarted = $yearStarted;
 

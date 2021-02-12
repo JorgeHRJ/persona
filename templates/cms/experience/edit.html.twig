@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Editar experiencia',
+    'header': 'Editar experiencia',
+    'subheader': 'Rellena el formulario para editar una experiencia',
+    'breadcrumbs': [
+    {
+        'name': 'Experiencias',
+        'path': path('cms_experience_index')
+    },
+    {
+        'name': 'Editar experiencia',
+        'main': true
+    }
+]
+    } %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/experience/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

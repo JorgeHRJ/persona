@@ -1,14 +1,5 @@
 <?php
 
-/*
- * This file is part of the Symfony package.
- *
- * (c) Fabien Potencier <fabien@symfony.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
-
 namespace App\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
@@ -25,6 +16,7 @@ class DateTimePickerType extends AbstractType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['attr']['data-component'] = 'datepicker';
+        $view->vars['attr']['data-time'] = 'true';
         $view->vars['attr']['placeholder'] = 'Seleccione una fecha';
     }
 

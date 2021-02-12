@@ -3,23 +3,10 @@
 namespace App\Service\Cms;
 
 use App\Entity\Tag;
-use App\Library\Repository\BaseRepository;
 use App\Library\Service\BaseService;
-use App\Repository\TagRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
 
 class TagService extends BaseService
 {
-    /** @var TagRepository */
-    private $repository;
-
-    public function __construct(EntityManagerInterface $entityManager, LoggerInterface $logger)
-    {
-        parent::__construct($entityManager, $logger);
-        $this->repository = $entityManager->getRepository(Tag::class);
-    }
-
     /**
      * @param array $names
      * @return Tag[]|array
@@ -34,8 +21,8 @@ class TagService extends BaseService
         return [];
     }
 
-    public function getRepository(): BaseRepository
+    public function getEntityClass(): string
     {
-        return $this->repository;
+        return Tag::class;
     }
 }

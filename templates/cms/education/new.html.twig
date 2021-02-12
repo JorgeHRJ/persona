@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Nueva educación',
+    'header': 'Nueva educación',
+    'subheader': 'Rellena el formulario para crear una nueva educación',
+    'breadcrumbs': [
+    {
+        'name': 'Educaciones',
+        'path': path('cms_education_index')
+    },
+    {
+        'name': 'Nueva educación',
+        'main': true
+    }
+]
+    } %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/education/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

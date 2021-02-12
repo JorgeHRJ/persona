@@ -21,7 +21,7 @@ class Profile
      *
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(name="profile_id", type="integer")
+     * @ORM\Column(name="profile_id", type="integer", nullable=false)
      */
     private $id;
 

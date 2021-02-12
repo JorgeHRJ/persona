@@ -91,7 +91,52 @@ class MenuService
         );
         $editorialGroup = new MenuGroup('Editorial', [$postsItem, $categoriesItem, $tagsItem]);
 
-        return [$generalGroup, $editorialGroup];
+        $profileItem = new MenuItem(
+            'Perfil',
+            '',
+            $this->isActive('profile'),
+            'cms_profile_index',
+            'ROLE_ADMIN',
+            'fas fa-address-card'
+        );
+        $certificationsItem = new MenuItem(
+            'Certificaciones',
+            '',
+            $this->isActive('certification'),
+            'cms_certification_index',
+            'ROLE_ADMIN',
+            'fas fa-award'
+        );
+        $educationsItem = new MenuItem(
+            'Educaciones',
+            '',
+            $this->isActive('education'),
+            'cms_education_index',
+            'ROLE_ADMIN',
+            'fas fa-university'
+        );
+        $experiencesItem = new MenuItem(
+            'Experiencias',
+            '',
+            $this->isActive('education'),
+            'cms_experience_index',
+            'ROLE_ADMIN',
+            'fas fa-briefcase'
+        );
+        $projectsItem = new MenuItem(
+            'Proyectos',
+            '',
+            $this->isActive('project'),
+            'cms_project_index',
+            'ROLE_ADMIN',
+            'fas fa-clipboard'
+        );
+        $personalGroup = new MenuGroup(
+            'Personal',
+            [$profileItem, $educationsItem, $certificationsItem, $experiencesItem, $projectsItem]
+        );
+
+        return [$generalGroup, $editorialGroup, $personalGroup];
     }
 
     /**

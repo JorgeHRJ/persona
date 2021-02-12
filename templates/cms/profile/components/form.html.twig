@@ -1,0 +1,36 @@
+{{ form_start(form, {'attr': {'class': 'mt-1', 'autocomplete': 'off'}}) }}
+<div class="mb-3">
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.presentation) }}
+    {{ form_widget(form.presentation, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.skillsSummary) }}
+    {{ form_widget(form.skillsSummary, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.twitter) }}
+    {{ form_widget(form.twitter, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.linkedin) }}
+    {{ form_widget(form.linkedin, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.github) }}
+    {{ form_widget(form.github, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.instagram) }}
+    {{ form_widget(form.instagram, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.stackoverflow) }}
+    {{ form_widget(form.stackoverflow, {'attr': {'class': 'form-control'}}) }}
+</div>
+<button type="submit" class="btn btn-primary">Enviar</button>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}

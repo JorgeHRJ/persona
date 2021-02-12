@@ -61,6 +61,16 @@ class Project
     private $description;
 
     /**
+     * @var string|null
+     *
+     * @Assert\Length(max=128, maxMessage="El enlace de demo debe tener {{ limit }} caracteres")
+     * @Assert\Url(message="El enlace de demo debe tener un formato de URL correcto")
+     *
+     * @ORM\Column(name="project_demo", type="string", length=128, nullable=true)
+     */
+    private $demo;
+
+    /**
      * @var Asset|null
      *
      * @ORM\OneToOne(targetEntity=Asset::class, cascade={"persist", "remove"})
@@ -137,6 +147,18 @@ class Project
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getDemo(): ?string
+    {
+        return $this->demo;
+    }
+
+    public function setDemo(string $demo): self
+    {
+        $this->demo = $demo;
 
         return $this;
     }

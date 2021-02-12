@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Nueva certificación',
+    'header': 'Nueva certificación',
+    'subheader': 'Rellena el formulario para crear una nueva certificación',
+    'breadcrumbs': [
+    {
+        'name': 'Certificaciones',
+        'path': path('cms_certification_index')
+    },
+    {
+        'name': 'Nueva certificación',
+        'main': true
+    }
+]
+    } %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/certification/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

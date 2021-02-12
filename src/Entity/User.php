@@ -76,6 +76,13 @@ class User implements UserInterface
     private $status;
 
     /**
+     * @var Profile|null
+     *
+     * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $profile;
+
+    /**
      * @var \DateTimeInterface|null
      *
      * @Assert\Type("\DateTimeInterface")
@@ -94,21 +101,6 @@ class User implements UserInterface
      * @ORM\Column(name="user_modified_at", type="datetime", nullable=true)
      */
     private $modifiedAt;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Profile::class, mappedBy="user", cascade={"persist", "remove"})
-     */
-    private $profile;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Experience::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $experiences;
-
-    public function __construct()
-    {
-        $this->experiences = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -232,36 +224,6 @@ class User implements UserInterface
         }
 
         $this->profile = $profile;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Experience[]
-     */
-    public function getExperiences(): Collection
-    {
-        return $this->experiences;
-    }
-
-    public function addExperience(Experience $experience): self
-    {
-        if (!$this->experiences->contains($experience)) {
-            $this->experiences[] = $experience;
-            $experience->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeExperience(Experience $experience): self
-    {
-        if ($this->experiences->removeElement($experience)) {
-            // set the owning side to null (unless already changed)
-            if ($experience->getUser() === $this) {
-                $experience->setUser(null);
-            }
-        }
 
         return $this;
     }

@@ -38,6 +38,16 @@ class Certification
     /**
      * @var string|null
      *
+     * @Assert\NotBlank(message="El nombre de la organización no puede estar vacío")
+     * @Assert\Length(max=128, maxMessage="El nombre de la organización no puede superar los {{ limit }} caracteres")
+     *
+     * @ORM\Column(name="certification_organization", type="string", length=128, nullable=false)
+     */
+    private $organization;
+
+    /**
+     * @var string|null
+     *
      * @Assert\NotBlank(message="El año de comienzo no puede estar vacío")
      * @Assert\Length(min=4, max=4, maxMessage="El año de comienzo debe tener {{ limit }} caracteres")
      *
@@ -91,12 +101,24 @@ class Certification
         return $this;
     }
 
+    public function getOrganization(): ?string
+    {
+        return $this->organization;
+    }
+
+    public function setOrganization(string $organization): self
+    {
+        $this->organization = $organization;
+
+        return $this;
+    }
+
     public function getYearStarted(): ?string
     {
         return $this->yearStarted;
     }
 
-    public function setYearStared(\DateTimeInterface $yearStarted): self
+    public function setYearStarted(string $yearStarted): self
     {
         $this->yearStarted = $yearStarted;
 
