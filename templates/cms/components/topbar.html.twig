@@ -12,11 +12,12 @@
     </form>#}
     <div class="navbar-collapse collapse">
         <ul class="navbar-nav navbar-align">
+            {#
             <li class="nav-item dropdown">
                 <a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
                     <div class="position-relative">
                         <i class="align-middle far fa-bell fa-xs"></i>
-                        {#<span class="indicator">4</span>#}
+                        <span class="indicator">4</span>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
@@ -66,12 +67,19 @@
                     </div>
                 </div>
             </li>
+            #}
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
+                    {% set user_avatar_src = get_image('avatar', app.user) %}
+                    {% if user_avatar_src is not empty %}
+                        <img src="{{ asset(user_avatar_src) }}"
+                             class="avatar img-fluid rounded mr-1"
+                             alt="Avatar de {{ app.user.name }}">
+                    {% endif %}
                     <span class="text-dark">{{ app.user.name }}</span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="{{ path('cms_user_account') }}">
                         <i class="align-middle far fa-user mr-1"></i> Mi cuenta
                     </a>
                     <div class="dropdown-divider"></div>

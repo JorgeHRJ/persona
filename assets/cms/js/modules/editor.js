@@ -2,17 +2,27 @@ import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 
-function initEditor(element) {
-  const textarea = document.querySelector(element.dataset.target);
-  if (!textarea) {
-    return;
+function initEditor(textarea) {
+  // create div to hold the editor
+  const editorDiv = document.createElement('div');
+  editorDiv.id = `editor-${textarea.id}`;
+  editorDiv.classList.add('mt-2');
+  editorDiv.dataset.target = `#${textarea.id}`;
+
+  // add to the container
+  textarea.parentElement.insertBefore(editorDiv, textarea.nextSibling);
+
+  // initialize editor
+  const data = textarea.value ? JSON.parse(textarea.value) : {};
+  let placeholder = textarea.getAttribute('placeholder');
+  if (!placeholder) {
+    placeholder = '';
   }
 
-  const data = textarea.value ? JSON.parse(textarea.value) : {};
-
   const editor = new EditorJS({
-    holder: element,
+    holder: editorDiv,
     data: data,
+    placeholder: placeholder,
     logLevel: 'ERROR',
     tools: {
       header: {

@@ -17,6 +17,15 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\Service\ImageService:
+        arguments:
+            $config: '%app.images%'
+
+    App\Service\StorageService:
+        arguments:
+            $publicFolder: '%kernel.project_dir%/public'
+            $assetsFolder: '%env(ASSETS_FOLDER)%'
+
     App\Library\Maker\MakeEntityBeautify:
         tags: ['maker.command']
         arguments:

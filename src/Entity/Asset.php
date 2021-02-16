@@ -17,6 +17,9 @@ class Asset
     const DOC_TYPE = 'document';
     const TYPES = [self::IMAGE_TYPE, self::DOC_TYPE];
 
+    const ENTITY_SOURCE = 'entity';
+    const SOURCES = [self::ENTITY_SOURCE];
+
     /**
      * @var int|null
      *

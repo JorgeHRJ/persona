@@ -47,7 +47,9 @@
                                 <tbody>
                                 {% for certification in data %}
                                     <tr>
-                                        <td>{{ certification.id }}</td>
+                                        <td>
+                                            {{ include('cms/components/image_cell_table.html.twig', {'object': certification, 'type': 'card'}) }}
+                                        </td>
                                         <td>{{ certification.name }}</td>
                                         <td>{{ certification.organization }}</td>
                                         <td>{{ certification.yearStarted }}</td>

@@ -47,7 +47,9 @@
                                 <tbody>
                                 {% for experience in data %}
                                     <tr>
-                                        <td>{{ experience.id }}</td>
+                                        <td>
+                                            {{ include('cms/components/image_cell_table.html.twig', {'object': experience, 'type': 'card'}) }}
+                                        </td>
                                         <td>{{ experience.position }}</td>
                                         <td>{{ experience.company }}</td>
                                         <td>{{ experience.monthYearStarted }}</td>

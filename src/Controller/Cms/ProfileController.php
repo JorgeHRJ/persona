@@ -6,6 +6,7 @@ use App\Entity\Profile;
 use App\Form\ProfileType;
 use App\Library\Controller\BaseController;
 use App\Service\Cms\ProfileService;
+use App\Service\ImageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfileController extends BaseController
 {
     private $profileService;
+    private $imageService;
 
-    public function __construct(ProfileService $profileService)
+    public function __construct(ProfileService $profileService, ImageService $imageService)
     {
         $this->profileService = $profileService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -42,7 +45,8 @@ class ProfileController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/profile/index.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'profile' => $profile
                 ]);
             }
 
@@ -54,6 +58,8 @@ class ProfileController extends BaseController
                     $this->profileService->edit($profile);
                 }
 
+                $this->imageService->handleRequest($form, $profile);
+
                 $this->addFlash('app_success', '¡Perfil público editado con éxito!');
             } catch (\Exception $e) {
                 $this->addFlash('app_error', 'Hubo un problema a la hora de editar tu perfil público');
@@ -61,7 +67,8 @@ class ProfileController extends BaseController
         }
 
         return $this->render('cms/profile/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'profile' => $profile
         ]);
     }
 }

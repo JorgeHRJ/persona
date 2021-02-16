@@ -6,6 +6,7 @@ use App\Entity\Education;
 use App\Form\EducationType;
 use App\Library\Controller\BaseController;
 use App\Service\Cms\EducationService;
+use App\Service\ImageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class EducationController extends BaseController
     const LIST_LIMIT = 10;
 
     private $educationService;
+    private $imageService;
 
-    public function __construct(EducationService $educationService)
+    public function __construct(EducationService $educationService, ImageService $imageService)
     {
         $this->educationService = $educationService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -68,12 +71,15 @@ class EducationController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/education/new.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'education' => $education
                 ]);
             }
 
             try {
                 $this->educationService->create($education);
+
+                $this->imageService->handleRequest($form, $education);
 
                 $this->addFlash('app_success', '¡Educación creada con éxito!');
 
@@ -84,7 +90,8 @@ class EducationController extends BaseController
         }
 
         return $this->render('cms/education/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'education' => $education
         ]);
     }
 
@@ -109,12 +116,15 @@ class EducationController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/education/edit.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'education' => $education
                 ]);
             }
 
             try {
                 $this->educationService->edit($education);
+
+                $this->imageService->handleRequest($form, $education);
 
                 $this->addFlash('app_success', '¡Educación editada con éxito!');
 
@@ -125,7 +135,8 @@ class EducationController extends BaseController
         }
 
         return $this->render('cms/education/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'education' => $education
         ]);
     }
 
@@ -144,6 +155,9 @@ class EducationController extends BaseController
 
         try {
             $this->educationService->remove($education);
+
+            $this->imageService->removeEntityImages($education);
+
             $this->addFlash('app_success', '¡Educación eliminada!');
         } catch (\Exception $e) {
             $this->addFlash('app_error', 'Hubo un error a la hora de eliminar la educación');

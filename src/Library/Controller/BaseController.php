@@ -8,6 +8,8 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class BaseController extends AbstractController
 {
@@ -110,5 +112,15 @@ class BaseController extends AbstractController
         }
 
         return $user;
+    }
+
+    public function getConstraintErrorMessages(ConstraintViolationListInterface $list): string
+    {
+        $message = '';
+        foreach ($list as $error) {
+            $message = sprintf('%s - %s', $message, $error->getMessage());
+        }
+
+        return $message;
     }
 }

@@ -5,8 +5,10 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Post;
 use App\Form\Type\DateTimePickerType;
+use App\Form\Type\DropzoneType;
 use App\Form\Type\EditorType;
 use App\Form\Type\TagsInputType;
+use App\Service\ImageService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,10 +20,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PostType extends AbstractType
 {
+    private $imageService;
     private $slugger;
 
-    public function __construct(SluggerInterface $slugger)
+    public function __construct(ImageService $imageService, SluggerInterface $slugger)
     {
+        $this->imageService = $imageService;
         $this->slugger = $slugger;
     }
 
@@ -39,6 +43,9 @@ class PostType extends AbstractType
             ->add('content', EditorType::class, [
                 'required' => true,
                 'label' => 'Contenido *',
+                'attr' => [
+                    'placeholder' => 'Redacta aquí el contenido del artículo'
+                ]
             ])
             ->add('publishedAt', DateTimePickerType::class, [
                 'required' => true,
@@ -55,6 +62,16 @@ class PostType extends AbstractType
                 'required' => false,
                 'label' => 'Etiquetas'
             ]);
+
+        $imageTypes = $this->imageService->getTypesInfo('post');
+        foreach ($imageTypes as $type => $info) {
+            $builder->add($type, DropzoneType::class, [
+                'label' => $info['title'],
+                'attr' => [
+                    'data-size' => $info['size']
+                ]
+            ]);
+        }
 
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /** @var Post $post */

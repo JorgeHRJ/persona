@@ -6,6 +6,7 @@ use App\Entity\Experience;
 use App\Form\ExperienceType;
 use App\Library\Controller\BaseController;
 use App\Service\Cms\ExperienceService;
+use App\Service\ImageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class ExperienceController extends BaseController
     const LIST_LIMIT = 10;
 
     private $experienceService;
+    private $imageService;
 
-    public function __construct(ExperienceService $experienceService)
+    public function __construct(ExperienceService $experienceService, ImageService $imageService)
     {
         $this->experienceService = $experienceService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -68,12 +71,15 @@ class ExperienceController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/experience/new.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'experience' => $experience
                 ]);
             }
 
             try {
                 $this->experienceService->create($experience);
+
+                $this->imageService->handleRequest($form, $experience);
 
                 $this->addFlash('app_success', '¡Experiencia creada con éxito!');
 
@@ -84,7 +90,8 @@ class ExperienceController extends BaseController
         }
 
         return $this->render('cms/experience/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'experience' => $experience
         ]);
     }
 
@@ -109,12 +116,15 @@ class ExperienceController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/experience/edit.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'experience' => $experience
                 ]);
             }
 
             try {
                 $this->experienceService->edit($experience);
+
+                $this->imageService->handleRequest($form, $experience);
 
                 $this->addFlash('app_success', '¡Experiencia editada con éxito!');
 
@@ -125,7 +135,8 @@ class ExperienceController extends BaseController
         }
 
         return $this->render('cms/experience/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'experience' => $experience
         ]);
     }
 
@@ -144,6 +155,9 @@ class ExperienceController extends BaseController
 
         try {
             $this->experienceService->remove($experience);
+
+            $this->imageService->removeEntityImages($experience);
+
             $this->addFlash('app_success', '¡Experiencia eliminada!');
         } catch (\Exception $e) {
             $this->addFlash('app_error', 'Hubo un error a la hora de eliminar la experiencia');

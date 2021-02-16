@@ -1,0 +1,10 @@
+{% set image_src = get_image(type, object) %}
+{% if image_src is not empty %}
+    <img src="{{ asset(image_src) }}" width="48" height="48" class="rounded-circle mr-2" alt="Main image">
+{% else %}
+    <div class="avatar-table">
+        <div class="avatar-title rounded-circle bg-primary-light">
+            <i class="far fa-image"></i>
+        </div>
+    </div>
+{% endif %}

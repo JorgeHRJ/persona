@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Experience;
 use App\Form\Type\DatePickerType;
+use App\Form\Type\DropzoneType;
+use App\Service\ImageService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,6 +14,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ExperienceType extends AbstractType
 {
+    private $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -55,6 +64,16 @@ class ExperienceType extends AbstractType
                 ]
             ])
         ;
+
+        $imageTypes = $this->imageService->getTypesInfo('experience');
+        foreach ($imageTypes as $type => $info) {
+            $builder->add($type, DropzoneType::class, [
+                'label' => $info['title'],
+                'attr' => [
+                    'data-size' => $info['size']
+                ]
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

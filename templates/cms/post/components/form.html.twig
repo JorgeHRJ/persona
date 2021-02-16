@@ -1,19 +1,15 @@
 {{ form_start(form, {'attr': {'class': 'mt-1', 'autocomplete': 'off'}}) }}
-    <div class="row">
+<div class="row">
     <div class="mb-3">
         {{ form_label(form.title) }}
         {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
     </div>
 </div>
-    <div class="row">
+<div class="row">
     <div class="col-9">
         <div class="mb-3">
             {{ form_label(form.content) }}
             {{ form_widget(form.content) }}
-            <div class="mt-2"
-                 data-component="editor"
-                 data-target="{{ "##{form.content.vars.id}" }}">
-            </div>
         </div>
     </div>
     <div class="col-3">
@@ -32,7 +28,11 @@
         </div>
     </div>
 </div>
-    <div class="row">
+{% set image_types = get_image_types('post') %}
+{% if image_types is not empty %}
+    {{ include('cms/components/images_form.html.twig', {'object': post} ) }}
+{% endif %}
+<div class="row">
     <button type="submit" class="btn btn-primary">Enviar</button>
 </div>
 {{ form_widget(form._token) }}

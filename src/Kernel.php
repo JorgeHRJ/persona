@@ -3,9 +3,11 @@
 namespace App;
 
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
+use Symfony\Component\Yaml\Yaml;
 
 class Kernel extends BaseKernel
 {
@@ -36,5 +38,13 @@ class Kernel extends BaseKernel
         } elseif (is_file($path)) {
             (require $path)($routes->withPath($path), $this);
         }
+    }
+
+    protected function build(ContainerBuilder $container): void
+    {
+        parent::build($container);
+
+        $images = Yaml::parseFile(sprintf('%s/config/app/images.yaml', \dirname(__DIR__)));
+        $container->setParameter('app.images', $images);
     }
 }

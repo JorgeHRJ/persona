@@ -72,14 +72,6 @@ class Education
     private $description;
 
     /**
-     * @var Asset|null
-     *
-     * @ORM\OneToOne(targetEntity=Asset::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="education_image", referencedColumnName="asset_id")
-     */
-    private $image;
-
-    /**
      * @var \DateTimeInterface|null
      *
      * @Assert\Type("\DateTimeInterface")
@@ -160,18 +152,6 @@ class Education
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getImage(): ?Asset
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Asset $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }

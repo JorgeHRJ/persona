@@ -31,6 +31,10 @@
     {{ form_label(form.stackoverflow) }}
     {{ form_widget(form.stackoverflow, {'attr': {'class': 'form-control'}}) }}
 </div>
+{% set image_types = get_image_types('profile') %}
+{% if image_types is not empty %}
+    {{ include('cms/components/images_form.html.twig', {'object': profile} ) }}
+{% endif %}
 <button type="submit" class="btn btn-primary">Enviar</button>
 {{ form_widget(form._token) }}
 {{ form_end(form, {'render_rest': false}) }}

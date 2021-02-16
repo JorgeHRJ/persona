@@ -6,6 +6,7 @@ use App\Entity\Project;
 use App\Form\ProjectType;
 use App\Library\Controller\BaseController;
 use App\Service\Cms\ProjectService;
+use App\Service\ImageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class ProjectController extends BaseController
     const LIST_LIMIT = 10;
 
     private $projectService;
+    private $imageService;
 
-    public function __construct(ProjectService $projectService)
+    public function __construct(ProjectService $projectService, ImageService $imageService)
     {
         $this->projectService = $projectService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -68,12 +71,15 @@ class ProjectController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/project/new.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'project' => $project
                 ]);
             }
 
             try {
                 $this->projectService->create($project);
+
+                $this->imageService->handleRequest($form, $project);
 
                 $this->addFlash('app_success', '¡Proyecto creado con éxito!');
 
@@ -84,7 +90,8 @@ class ProjectController extends BaseController
         }
 
         return $this->render('cms/project/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'project' => $project
         ]);
     }
 
@@ -109,12 +116,15 @@ class ProjectController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/project/edit.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'project' => $project
                 ]);
             }
 
             try {
                 $this->projectService->edit($project);
+
+                $this->imageService->handleRequest($form, $project);
 
                 $this->addFlash('app_success', '¡Proyecto editado con éxito!');
 
@@ -125,7 +135,8 @@ class ProjectController extends BaseController
         }
 
         return $this->render('cms/project/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'project' => $project
         ]);
     }
 
@@ -144,6 +155,9 @@ class ProjectController extends BaseController
 
         try {
             $this->projectService->remove($project);
+
+            $this->imageService->removeEntityImages($project);
+
             $this->addFlash('app_success', '¡Proyecto eliminad0!');
         } catch (\Exception $e) {
             $this->addFlash('app_error', 'Hubo un error a la hora de eliminar el proyecto');

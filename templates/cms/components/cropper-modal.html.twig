@@ -1,0 +1,31 @@
+<div class="modal fade show" id="cropper-modal" tabindex="-1" role="dialog" data-component="cropper-modal">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Recortar imagen</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body m-3">
+                <div class="row">
+                    <div class="col-9">
+                        <h4 class="mb-2">Realiza el recorte de imagen correspondiente</h4>
+                        <div class="image-cropper">
+                            <img src="#" data-component="image-cropper">
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <h4 class="mb-1">Información del recorte</h4>
+                        <hr>
+                        <p>Tamaño requerido: <span data-component="required-size"></span></p>
+                        <p>Recorte actual: <span data-component="crop-size">-</span></p>
+                        <p class="text-danger hide" data-component="crop-error">El recorte actual no es válido</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-action="save-crop">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>

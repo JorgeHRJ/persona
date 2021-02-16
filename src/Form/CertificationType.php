@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Certification;
 use App\Form\Type\DatePickerType;
+use App\Form\Type\DropzoneType;
+use App\Service\ImageService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -11,6 +13,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CertificationType extends AbstractType
 {
+    private $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -37,6 +46,16 @@ class CertificationType extends AbstractType
                 'label' => 'Año de finalización'
             ])
         ;
+
+        $imageTypes = $this->imageService->getTypesInfo('certification');
+        foreach ($imageTypes as $type => $info) {
+            $builder->add($type, DropzoneType::class, [
+                'label' => $info['title'],
+                'attr' => [
+                    'data-size' => $info['size']
+                ]
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

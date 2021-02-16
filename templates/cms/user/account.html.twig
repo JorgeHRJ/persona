@@ -1,16 +1,12 @@
 {% extends 'cms/layout.html.twig' %}
 
 {% page_setup {
-    'title': 'Editar proyecto',
-    'header': 'Editar proyecto',
-    'subheader': 'Rellena el formulario para editar un proyecto',
+    'title': 'Mi cuenta',
+    'header': 'Mi cuenta',
+    'subheader': 'Realiza las modificaciones que desees sobre tu cuenta de usuario',
     'breadcrumbs': [
     {
-        'name': 'Proyectos',
-        'path': path('cms_project_index')
-    },
-    {
-        'name': 'Editar proyecto',
+        'name': 'Perfil',
         'main': true
     }
 ]
@@ -21,7 +17,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    {{ include('cms/project/components/form.html.twig') }}
+                    {{ include('cms/user/components/form.html.twig') }}
                 </div>
             </div>
         </div>

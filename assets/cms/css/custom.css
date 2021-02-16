@@ -45,3 +45,7 @@
 .form-control {
     margin-top: 5px;
 }
+
+.image-cropper img {
+    max-width: 100%;
+}

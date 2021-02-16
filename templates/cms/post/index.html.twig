@@ -49,7 +49,9 @@
                                 <tbody>
                                 {% for post in data %}
                                     <tr>
-                                        <td>{{ post.id }}</td>
+                                        <td>
+                                            {{ include('cms/components/image_cell_table.html.twig', {'object': post, 'type': 'card'}) }}
+                                        </td>
                                         <td>{{ post.title }}</td>
                                         <td>{{ post.slug }}</td>
                                         <td>

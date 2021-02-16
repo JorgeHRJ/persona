@@ -6,6 +6,7 @@ use App\Entity\Certification;
 use App\Form\CertificationType;
 use App\Library\Controller\BaseController;
 use App\Service\Cms\CertificationService;
+use App\Service\ImageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class CertificationController extends BaseController
     const LIST_LIMIT = 10;
 
     private $certificationService;
+    private $imageService;
 
-    public function __construct(CertificationService $certificationService)
+    public function __construct(CertificationService $certificationService, ImageService $imageService)
     {
         $this->certificationService = $certificationService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -68,12 +71,15 @@ class CertificationController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/certification/new.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'certification' => $certification
                 ]);
             }
 
             try {
                 $this->certificationService->create($certification);
+
+                $this->imageService->handleRequest($form, $certification);
 
                 $this->addFlash('app_success', '¡Certificación creada con éxito!');
 
@@ -84,7 +90,8 @@ class CertificationController extends BaseController
         }
 
         return $this->render('cms/certification/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'certification' => $certification
         ]);
     }
 
@@ -109,12 +116,15 @@ class CertificationController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/certification/edit.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'certification' => $certification
                 ]);
             }
 
             try {
                 $this->certificationService->edit($certification);
+
+                $this->imageService->handleRequest($form, $certification);
 
                 $this->addFlash('app_success', '¡Certificación editada con éxito!');
 
@@ -125,7 +135,8 @@ class CertificationController extends BaseController
         }
 
         return $this->render('cms/certification/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'certification' => $certification
         ]);
     }
 
@@ -144,6 +155,9 @@ class CertificationController extends BaseController
 
         try {
             $this->certificationService->remove($certification);
+
+            $this->imageService->removeEntityImages($certification);
+
             $this->addFlash('app_success', '¡Certificación eliminada!');
         } catch (\Exception $e) {
             $this->addFlash('app_error', 'Hubo un error a la hora de eliminar la certificación');

@@ -47,7 +47,9 @@
                                 <tbody>
                                 {% for education in data %}
                                     <tr>
-                                        <td>{{ education.id }}</td>
+                                        <td>
+                                            {{ include('cms/components/image_cell_table.html.twig', {'object': education, 'type': 'card'}) }}
+                                        </td>
                                         <td>{{ education.title }}</td>
                                         <td>{{ education.organization }}</td>
                                         <td>{{ education.yearStarted }}</td>

@@ -1,0 +1,50 @@
+entities:
+  user:
+    main:
+      title: 'Principal'
+      size: 128x128
+    avatar:
+      title: 'Avatar'
+      size: 40x40
+
+  profile:
+    main:
+      title: 'Principal'
+      size: 400x300
+    avatar:
+      title: 'Avatar'
+      size: 160x160
+
+  post:
+    main:
+      title: 'Principal'
+      size: 1200x600
+    card:
+      title: 'Tarjeta'
+      size: 800x560
+
+  project:
+    main:
+      title: 'Principal'
+      size: 1200x600
+    card:
+      title: 'Tarjeta'
+      size: 800x560
+    thumbnail:
+      title: 'Thumbnail'
+      size: 100x100
+
+  education:
+    card:
+      title: 'Tarjeta'
+      size: 160x160
+
+  experience:
+    card:
+      title: 'Tarjeta'
+      size: 160x160
+
+  certification:
+    card:
+      title: 'Tarjeta'
+      size: 160x160

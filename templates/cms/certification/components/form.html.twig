@@ -17,6 +17,10 @@
         {{ form_widget(form.yearEnded, {'attr': {'class': 'form-control'}}) }}
         <small>{{ form_help(form.yearEnded) }}</small>
     </div>
+    {% set image_types = get_image_types('certification') %}
+    {% if image_types is not empty %}
+        {{ include('cms/components/images_form.html.twig', {'object': certification} ) }}
+    {% endif %}
     <button type="submit" class="btn btn-primary">Enviar</button>
 {{ form_widget(form._token) }}
 {{ form_end(form, {'render_rest': false}) }}

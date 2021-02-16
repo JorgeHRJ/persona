@@ -56,27 +56,28 @@ class Project
     /**
      * @var string|null
      *
-     * @ORM\Column(name="project_description", type="text", nullable=true)
+     * @Assert\Length(max=128, maxMessage="El resumen no puede superar los {{ limit }} caracteres")
+     *
+     * @ORM\Column(name="project_summary", type="string", length=128, nullable=true)
+     */
+    private $summary;
+
+    /**
+     * @var array|null
+     *
+     * @ORM\Column(name="project_description", type="json", nullable=true)
      */
     private $description;
 
     /**
      * @var string|null
      *
-     * @Assert\Length(max=128, maxMessage="El enlace de demo debe tener {{ limit }} caracteres")
+     * @Assert\Length(max=128, maxMessage="El enlace de demo no puede superar los {{ limit }} caracteres")
      * @Assert\Url(message="El enlace de demo debe tener un formato de URL correcto")
      *
      * @ORM\Column(name="project_demo", type="string", length=128, nullable=true)
      */
     private $demo;
-
-    /**
-     * @var Asset|null
-     *
-     * @ORM\OneToOne(targetEntity=Asset::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(name="project_image", referencedColumnName="asset_id")
-     */
-    private $image;
 
     /**
      * @var \DateTimeInterface|null
@@ -139,12 +140,24 @@ class Project
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    public function setSummary(?string $summary): self
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    public function getDescription(): ?array
     {
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(?array $description): self
     {
         $this->description = $description;
 
@@ -159,18 +172,6 @@ class Project
     public function setDemo(string $demo): self
     {
         $this->demo = $demo;
-
-        return $this;
-    }
-
-    public function getImage(): ?Asset
-    {
-        return $this->image;
-    }
-
-    public function setImage(?Asset $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Form\PostType;
 use App\Library\Controller\BaseController;
 use App\Service\Cms\PostService;
+use App\Service\ImageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class PostController extends BaseController
     const LIST_LIMIT = 10;
 
     private $postService;
+    private $imageService;
 
-    public function __construct(PostService $postService)
+    public function __construct(PostService $postService, ImageService $imageService)
     {
         $this->postService = $postService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -68,14 +71,16 @@ class PostController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/post/new.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'post' => $post
                 ]);
             }
 
             try {
                 $post->setAuthor($this->getUserInstance());
-
                 $this->postService->create($post);
+
+                $this->imageService->handleRequest($form, $post);
 
                 $this->addFlash('app_success', '¡Artículo creado con éxito!');
 
@@ -86,7 +91,8 @@ class PostController extends BaseController
         }
 
         return $this->render('cms/post/new.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'post' => $post
         ]);
     }
 
@@ -111,12 +117,15 @@ class PostController extends BaseController
             if (!$form->isValid()) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
                 return $this->render('cms/post/edit.html.twig', [
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'post' => $post
                 ]);
             }
 
             try {
                 $this->postService->edit($post);
+
+                $this->imageService->handleRequest($form, $post);
 
                 $this->addFlash('app_success', '¡Artículo editado con éxito!');
 
@@ -127,7 +136,8 @@ class PostController extends BaseController
         }
 
         return $this->render('cms/post/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'post' => $post
         ]);
     }
 
@@ -146,6 +156,9 @@ class PostController extends BaseController
 
         try {
             $this->postService->remove($post);
+
+            $this->imageService->removeEntityImages($post);
+
             $this->addFlash('app_success', '¡Artículo eliminado!');
         } catch (\Exception $e) {
             $this->addFlash('app_error', 'Hubo un error a la hora de eliminar el artículo');

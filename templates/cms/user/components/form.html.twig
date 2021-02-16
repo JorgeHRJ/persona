@@ -1,0 +1,28 @@
+{{ form_start(form, {'attr': {'class': 'mt-1', 'autocomplete': 'off'}}) }}
+<div class="mb-3">
+    {{ form_label(form.email) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.currentPassword) }}
+    {{ form_widget(form.currentPassword, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.newPassword.first) }}
+    {{ form_widget(form.newPassword.first, {'attr': {'class': 'form-control'}}) }}
+</div>
+<div class="mb-3">
+    {{ form_label(form.newPassword.second) }}
+    {{ form_widget(form.newPassword.second, {'attr': {'class': 'form-control'}}) }}
+</div>
+{% set image_types = get_image_types('user') %}
+{% if image_types is not empty %}
+    {{ include('cms/components/images_form.html.twig', {'object': user} ) }}
+{% endif %}
+<button type="submit" class="btn btn-primary">Enviar</button>
+{{ form_widget(form._token) }}
+{{ form_end(form, {'render_rest': false}) }}

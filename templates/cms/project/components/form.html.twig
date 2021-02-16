@@ -13,6 +13,10 @@
         <small>{{ form_help(form.year) }}</small>
     </div>
     <div class="mb-3">
+        {{ form_label(form.summary) }}
+        {{ form_widget(form.summary, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
         {{ form_label(form.description) }}
         {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
     </div>
@@ -20,6 +24,10 @@
         {{ form_label(form.demo) }}
         {{ form_widget(form.demo, {'attr': {'class': 'form-control'}}) }}
     </div>
+    {% set image_types = get_image_types('project') %}
+    {% if image_types is not empty %}
+        {{ include('cms/components/images_form.html.twig', {'object': project} ) }}
+    {% endif %}
     <button type="submit" class="btn btn-primary">Enviar</button>
 {{ form_widget(form._token) }}
 {{ form_end(form, {'render_rest': false}) }}

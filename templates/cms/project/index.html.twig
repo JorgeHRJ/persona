@@ -11,7 +11,7 @@
         }
     ],
     'utilities': 'cms/project/components/utilities.html.twig'
-    } %}
+} %}
 
 {% block content %}
     <div class="row">
@@ -47,10 +47,22 @@
                                 <tbody>
                                 {% for project in data %}
                                     <tr>
-                                        <td>{{ project.id }}</td>
+                                        <td>
+                                            {{ include('cms/components/image_cell_table.html.twig', {'object': project, 'type': 'thumbnail'}) }}
+                                        </td>
                                         <td>{{ project.name }}</td>
                                         <td>{{ project.type }}</td>
-                                        <td>{{ project.demo|default('-') }}</td>
+                                        <td>
+                                            {% if project.demo is not empty %}
+                                                <a href="{{ project.demo }}"
+                                                   title="Demo de {{ project.name }}"
+                                                   target="_blank">
+                                                    {{ project.demo }}
+                                                </a>
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
                                         <td>{{ project.year }}</td>
                                         <td class="table-action">
                                             <a href="{{ path('cms_project_edit', {'id': project.id}) }}"

@@ -1,0 +1,19 @@
+<hr>
+<h4>Imágenes</h4>
+{% for type in image_types %}
+    <div class="row mb-3">
+        {% set type_form = get_form_children(form, type) %}
+        {{ form_label(type_form) }}
+        <div class="col-4">
+            {% set image_src = get_image(type, object) %}
+            <img class="img-fluid {{ image_src ? '' : 'hide' }}"
+                 src="{{ image_src ? asset(image_src) : '#' }}"
+                 data-component="{{ "image-preview-#{type_form.vars.id}" }}" alt="Previsualización de imagen">
+        </div>
+        <div class="col-8">
+            {{ form_widget(type_form) }}
+        </div>
+    </div>
+{% endfor %}
+<hr>
+{{ include('cms/components/cropper-modal.html.twig') }}
