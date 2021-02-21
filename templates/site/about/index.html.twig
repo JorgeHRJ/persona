@@ -1,0 +1,21 @@
+{% extends 'site/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Sobre mí',
+} %}
+
+{% block intro %}
+    {{ include('site/about/components/profile.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    {{ include('site/about/components/experiences.html.twig') }}
+    <hr>
+    {{ include('site/about/components/educations.html.twig') }}
+    <hr>
+    {{ include('site/about/components/certifications.html.twig') }}
+    <hr>
+    {{ include('site/about/components/projects.html.twig') }}
+    <hr>
+    {{ include('site/about/components/posts.html.twig') }}
+{% endblock %}

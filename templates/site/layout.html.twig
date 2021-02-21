@@ -1,0 +1,16 @@
+{% extends 'site/base.html.twig' %}
+
+{% block body %}
+    <header class="header">
+        {{ include('site/components/topbar.html.twig') }}
+        <div class="header-intro theme-bg-primary text-white py-5">
+            <div class="container">
+                {% block intro %}{% endblock %}
+            </div>
+        </div>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    {{ include('site/about/components/footer.html.twig') }}
+{% endblock %}

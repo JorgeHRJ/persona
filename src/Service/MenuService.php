@@ -14,20 +14,57 @@ class MenuService
 {
     private $security;
     private $requestStack;
+    private $contextService;
 
-    public function __construct(Security $security, RequestStack $requestStack)
+    public function __construct(Security $security, RequestStack $requestStack, ContextService $contextService)
     {
         $this->security = $security;
         $this->requestStack = $requestStack;
+        $this->contextService = $contextService;
+    }
+
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    public function getMenu(): array
+    {
+        return $this->contextService->isCMS() ? $this->getCmsMenu() : $this->getSiteMenu();
+    }
+
+    /**
+     * @return MenuItem[]
+     * @throws \Exception
+     */
+    private function getSiteMenu(): array
+    {
+        $aboutItem = new MenuItem(
+            'Sobre mí',
+            '',
+            $this->isActive('about'),
+            'site_about_index',
+            'IS_AUTHENTICATED_ANONYMOUSLY',
+            ''
+        );
+        $blogItem = new MenuItem(
+            'Blog',
+            '',
+            $this->isActive('blog'),
+            'site_blog_index',
+            'IS_AUTHENTICATED_ANONYMOUSLY',
+            ''
+        );
+
+        return [$aboutItem, $blogItem];
     }
 
     /**
      * @return MenuGroup[]
      * @throws \Exception
      */
-    public function getMenu(): array
+    private function getCmsMenu(): array
     {
-        $config = $this->getMenuConfig();
+        $config = $this->getCmsMenuConfig();
         $menu = [];
 
         foreach ($config as $menuGroup) {
@@ -53,7 +90,7 @@ class MenuService
      * @return MenuGroup[]
      * @throws \Exception
      */
-    private function getMenuConfig(): array
+    private function getCmsMenuConfig(): array
     {
         $dashboardItem = new MenuItem(
             'Dashboard',
@@ -84,7 +121,7 @@ class MenuService
         $tagsItem = new MenuItem(
             'Etiquetas',
             '',
-            $this->isActive('post'),
+            $this->isActive('tag'),
             'cms_tag_index',
             'ROLE_EDITOR',
             'fas fa-tags'
@@ -118,7 +155,7 @@ class MenuService
         $experiencesItem = new MenuItem(
             'Experiencias',
             '',
-            $this->isActive('education'),
+            $this->isActive('experience'),
             'cms_experience_index',
             'ROLE_ADMIN',
             'fas fa-briefcase'
@@ -161,7 +198,7 @@ class MenuService
         }
 
         $route = $request->attributes->get('_route');
-        return explode('_', $route)[0];
+        return explode('_', $route)[1];
     }
 
     /**

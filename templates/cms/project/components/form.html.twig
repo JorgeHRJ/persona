@@ -21,6 +21,10 @@
         {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
     </div>
     <div class="mb-3">
+        {{ form_label(form.stack) }}
+        {{ form_widget(form.stack, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
         {{ form_label(form.demo) }}
         {{ form_widget(form.demo, {'attr': {'class': 'form-control'}}) }}
     </div>

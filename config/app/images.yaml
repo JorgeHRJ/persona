@@ -10,7 +10,7 @@ entities:
   profile:
     main:
       title: 'Principal'
-      size: 400x300
+      size: 240x240
     avatar:
       title: 'Avatar'
       size: 160x160
@@ -21,7 +21,10 @@ entities:
       size: 1200x600
     card:
       title: 'Tarjeta'
-      size: 800x560
+      size: 1200x465
+    thumbnail:
+      title: 'Thumbnail'
+      size: 100x100
 
   project:
     main:

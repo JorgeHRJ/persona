@@ -1,0 +1,14 @@
+<div class="text-center">
+    <h1 class="mb-2">{{ post.title }}</h1>
+    {% set image_src = get_image('avatar', post.author) %}
+    {% if image_src is not empty %}
+        <img class="profile-small d-inline-block rounded-circle mb-3"
+             src="{{ asset(image_src) }}"
+             alt="Artículo de {{ post.author.name }}">
+    {% endif %}
+    <ul class="page-heading-post-meta list-inline mb-0">
+        <li class="list-inline-item mr-3">
+            <i class="far fa-clock mr-2"></i> {{ post.publishedAt|date('d/m/Y H:i:s') }}
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,50 @@
+{% if projects is not empty %}
+    <section class="section-featured-projects py-5">
+        <div class="container">
+            <h3 class="section-title fw-bold text-center mb-5 title-bordered">Proyectos</h3>
+            <div class="project-cards row mb-5">
+                {% for project in projects %}
+                    <div class="col-12 col-lg-4">
+                        <div class="card rounded-0 border-0 shadow-sm mb-5 mb-lg-0">
+                            <div class="card-img-container position-relative">
+                                {% set image_src = get_image('card', project) %}
+                                {% if image_src is not empty %}
+                                    <img class="card-img-top rounded-0 project-card-image"
+                                        src="{{ asset(image_src) }}"
+                                        alt="Proyecto {{ project.name }}">
+                                {% endif %}
+                                <div class="card-img-overlay overlay-logo text-center">
+                                    <div class="project-logo"></div>
+                                </div>
+                                <a class="card-img-overlay overlay-content text-start p-lg-4"
+                                   href="{{ project.demo|default('#') }}">
+                                    <h5 class="card-title fw-bold">{{ project.name }}</h5>
+                                    <p class="card-text">
+                                        {{ project.summary|length > 100 ? project.summary|slice(0, 100) ~ '...' : project.summary }}
+                                    </p>
+                                </a>
+                            </div>
+                            <div class="card-body pb-0">
+                                <h4 class="card-title text-truncate text-center mb-0">
+                                    <a href="{{ project.demo|default('#') }}">{{ project.name }}</a>
+                                </h4>
+                            </div>
+                            {% if project.stack is not empty %}
+                                <div class="card-footer border-0 text-center bg-white pb-4">
+                                    <ul class="list-inline mb-0 mx-auto">
+                                        {% set stack_items = project.stack|split(',') %}
+                                        {% for item in stack_items %}
+                                            <li class="list-inline-item">
+                                                <span class="badge bg-secondary rounded-pill">{{ item }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+{% endif %}

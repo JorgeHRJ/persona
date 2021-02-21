@@ -1,0 +1,112 @@
+{% extends 'site/layout.html.twig' %}
+
+{% page_setup {
+    'title': post.title,
+    'body': {
+        'attr': {
+            'controller': 'post'
+        }
+    }
+} %}
+
+{% block intro %}
+    {{ include('site/blog/components/post-intro.html.twig') }}
+{% endblock %}
+
+{% block content %}
+    <section class="single-post-wrapper single-col-max-width py-5 px-4 mx-auto">
+        <div class="section-row mb-2">
+            <div class="cover-image mb-4">
+                {% set post_image_src = get_image('main', post) %}
+                {% if post_image_src is not empty %}
+                    <img class="img-fluid"
+                         src="{{ asset(post_image_src) }}"
+                         alt="Imagen del artículo {{ post.title }}">
+                {% endif %}
+            </div>
+        </div>
+        <div class="section-row mb-2" data-component="post-show" data-content="{{ post.content|json_encode }}"></div>
+        <div class="author-block my-5 bg-white p-3 p-l-5">
+            <div class="media flex-column flex-md-row">
+                {% set author_image_src = get_image('avatar', post.author) %}
+                {% if author_image_src is not empty %}
+                    <img class="author-profile profile-small d-inline-block rounded-circle me-md-4 mb-2 mb-lg-0"
+                         src="{{ asset(author_image_src) }}"
+                         alt="Imagen del autor {{ post.author.name }}">
+                {% endif %}
+                <div class="author-info media-body">
+                    <h4 class="mb-2 font-weight-bold">{{ post.author.name }}</h4>
+                    {% if post.author.profile is not empty %}
+                        <div class="mb-3">{{ post.author.profile.title }}</div>
+                        {% set socials = get_social_items(post.author.profile) %}
+                        {% if socials is not empty %}
+                            <ul class="social-list-color list-inline mb-0">
+                                {% for social in socials %}
+                                    <li class="list-inline-item mb-3">
+                                        <a class="{{ social.network}} rounded-circle"
+                                           href="{{ social.url }}"
+                                           target="_blank">
+                                            <i class="fab {{ social.icon }} fa-fw"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if related is not empty %}
+        <section class="section pt-5 related-projects-section bg-white">
+            <div class="container">
+                <h3 class="section-title font-weight-bold text-center mb-4">Te puede interesar</h3>
+                <div class="blog-cards blog-cards-related">
+                    <div class="row">
+                        {% for related_post in related %}
+                            <div class="col-12 col-lg-4 mb-5">
+                            <div class="card rounded-0 border-0 shadow-sm eq-height">
+                                <div class="card-img-container position-relative">
+                                    {% set related_image_src = get_image('card', related_post) %}
+                                    {% if related_image_src is not empty %}
+                                        <img class="card-img-top rounded-0"
+                                             src="{{ asset(related_image_src) }}"
+                                             alt="Imagen del artículo {{ related_post.title }}">
+                                    {% endif %}
+                                    <div class="card-img-overlay overlay-mask text-center p-0">
+                                        <div class="overlay-mask-content text-center w-100 position-absolute">
+                                            <a class="btn btn-primary"
+                                               href="{{ path('site_blog_post', {'slug': related_post.slug}) }}">
+                                                Leer
+                                            </a>
+                                        </div>
+                                        <a class="overlay-mask-link position-absolute w-100 h-100"
+                                           href="{{ path('site_blog_post', {'slug': related_post.slug}) }}"></a>
+                                    </div>
+                                </div>
+                                <div class="card-body pb-4">
+                                    <h4 class="card-title mb-2">
+                                        <a href="{{ path('site_blog_post', {'slug': related_post.slug}) }}">
+                                            {{ related_post.title }}
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div class="card-footer border-0">
+                                    <ul class="meta list-inline mb-0">
+                                        <li class="list-inline-item mr-3">
+                                            <i class="far fa-clock mr-2"></i> {{ post.publishedAt|date('d/m/Y') }}
+                                        </li>
+                                        <li class="list-inline-item mr-3">
+                                            <i class="far fa-pencil mr-2"></i> {{ post.author.name }}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

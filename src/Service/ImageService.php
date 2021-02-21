@@ -3,6 +3,8 @@
 namespace App\Service;
 
 use App\Entity\Asset;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\Form\FormInterface;
 
 class ImageService
@@ -40,13 +42,13 @@ class ImageService
                 continue;
             }
 
+            // remove previous files if they exist
+            $this->findAndRemove($id, $entity, $type);
+
             // prepare paths
             $filename = $this->getFilename($id, $entity, $type);
             $relativeDirPath = $this->getRelativeDirPath($entity, $id);
             $folder = $this->storageService->getAssetsDir($relativeDirPath);
-
-            // remove previous files if they exist
-            $this->findAndRemove($id, $entity, $type);
 
             // save file
             list($filename, $extension) = $this->storageService->saveBase64Image($data, $folder, $filename);
@@ -68,21 +70,28 @@ class ImageService
             return null;
         }
 
-        $filename = $this->getFilename($id, $entity, $type);
+        $filenamePattern = $this->getFilenamePattern($id, $entity, $type);
         $relativeDirPath = $this->getRelativeDirPath($entity, $id);
-        $assetsDir = $this->storageService->getAssetsFolder();
+        $assetsDir = $this->storageService->getAssetsDir($relativeDirPath);
 
-        $publicPath = sprintf('%s/%s/%s', $assetsDir, $relativeDirPath, $filename);
-
-        $path = null;
-        foreach (StorageService::IMAGE_EXTENSIONS as $extension) {
-            $temp = sprintf('%s.%s', $publicPath, $extension);
-            if (file_exists($temp)) {
-                $path = $temp;
-            }
+        if (!file_exists($assetsDir)) {
+            return null;
         }
 
-        return $path;
+        $assetsPath = $this->storageService->getAssetsFolder();
+
+        $finder = new Finder();
+        $files = $finder->files()->in($assetsDir)->name($filenamePattern);
+        if (!$files->hasResults()) {
+            return null;
+        }
+
+        /** @var SplFileInfo $file */
+        foreach ($files as $file) {
+            return sprintf('%s/%s/%s', $assetsPath, $relativeDirPath, $file->getFilename());
+        }
+
+        return null;
     }
 
     public function removeEntityImages(object $model): void
@@ -97,10 +106,7 @@ class ImageService
             return;
         }
 
-        $types = $this->getTypesInfo($entity);
-        foreach ($types as $type => $info) {
-            $this->findAndRemove($id, $entity, $type);
-        }
+        $this->findAndRemove($id, $entity);
     }
 
     public function getRelativeDirPath(string $entity, int $id): string
@@ -110,7 +116,12 @@ class ImageService
 
     public function getFilename(int $id, string $entity, string $type): string
     {
-        return sprintf('%d.%s.%s', $id, $entity, $type);
+        return sprintf('%d.%s.%s.%s', $id, $entity, $type, md5(uniqid((string) rand(), true)));
+    }
+
+    public function getFilenamePattern(int $id, string $entity, string $type): string
+    {
+        return sprintf('%d.%s.%s.*', $id, $entity, $type);
     }
 
     public function getSizes(string $entity, string $type): array
@@ -136,17 +147,29 @@ class ImageService
         return array_keys($this->getEntityInfo($entity));
     }
 
-    private function findAndRemove(int $id, string $entity, string $type): void
+    private function findAndRemove(int $id, string $entity, string $type = null): void
     {
         // prepare paths
-        $filename = $this->getFilename($id, $entity, $type);
         $relativeDirPath = $this->getRelativeDirPath($entity, $id);
         $folder = $this->storageService->getAssetsDir($relativeDirPath);
 
-        // remove previous files if they exist
-        foreach (StorageService::IMAGE_EXTENSIONS as $extension) {
-            $temp = sprintf('%s%s.%s', $folder, $filename, $extension);
-            $this->storageService->remove($temp);
+        // find
+        if (!file_exists($folder)) {
+            return;
+        }
+
+        $finder = new Finder();
+        $files = $finder->files()->in($folder);
+
+        if ($type !== null) {
+            $filenamePattern = $this->getFilenamePattern($id, $entity, $type);
+            $files->name($filenamePattern);
+        }
+
+        // remove
+        /** @var SplFileInfo $file */
+        foreach ($files as $file) {
+            $this->storageService->remove($file->getRealPath());
         }
     }
 

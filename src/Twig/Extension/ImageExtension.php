@@ -3,7 +3,6 @@
 namespace App\Twig\Extension;
 
 use App\Service\ImageService;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 

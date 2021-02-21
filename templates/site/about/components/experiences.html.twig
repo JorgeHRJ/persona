@@ -1,0 +1,28 @@
+<section class="py-5">
+    <div class="container">
+        <h3 class="section-title fw-bold text-center mb-5 title-bordered">Experiencia</h3>
+        {% for experience in experiences %}
+            <div class="media mb-5 flex-column flex-lg-row bg-white shadow-sm">
+                {% set image_src = get_image('card', experience) %}
+                {% if image_src is not empty %}
+                    <div class="ms-3 me-3">
+                        <img class="entity-card-image py-2" src="{{ asset(image_src) }}" alt="">
+                    </div>
+                {% endif %}
+                <div class="media-body p-4">
+                    <h4>{{ experience.position }}</h4>
+                    <div class="row">
+                        <h5>
+                            {{ experience.company }} |
+                            <span class="text-primary">
+                                {{ experience.monthYearStarted }} -
+                                {{ experience.monthYearEnded is not empty ? experience.monthYearEnded : 'Actualidad' }}
+                            </span>
+                        </h5>
+                        <p>{{ experience.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\Tag;
 use App\Library\Repository\BaseRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -41,7 +42,47 @@ class PostRepository extends BaseRepository
             $qb->setMaxResults($limit);
         }
 
-        return $qb->getQuery()->execute();
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getRelated(Post $post, int $limit): array
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb
+            ->where('p.category = :categoryId')
+            ->setParameter('categoryId', $post->getCategory())
+        ;
+
+        if (!$post->getTags()->isEmpty()) {
+            $tagsIds = array_map(function (Tag $tag) {
+                return $tag->getId();
+            }, $post->getTags()->toArray());
+            $qb
+                ->leftJoin('p.tags', 't')
+                ->orWhere('t.id IN (:tagsIds)')
+                ->setParameter('tagsIds', $tagsIds);
+        }
+
+        $qb->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param string $slug
+     * @return Post|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getBySlug(string $slug): ?Post
+    {
+        $qb = $this->createQueryBuilder('p');
+        $this->setJoins('p', $qb);
+
+        $qb
+            ->where('p.slug = :slug')
+            ->setParameter('slug', $slug);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     public function getFilterFields(): array
@@ -52,9 +93,14 @@ class PostRepository extends BaseRepository
     private function setJoins(string $alias, QueryBuilder $qb): void
     {
         $qb
+            ->addSelect('a')
             ->addSelect('c')
             ->addSelect('t')
-            ->leftJoin(sprintf('%s.category', $alias), 'c')
-            ->leftJoin(sprintf('%s.tags', $alias), 't');
+            ->addSelect('pr')
+            ->join(sprintf('%s.author', $alias), 'a')
+            ->join(sprintf('%s.category', $alias), 'c')
+            ->leftJoin(sprintf('%s.tags', $alias), 't')
+            ->leftJoin('a.profile', 'pr')
+        ;
     }
 }

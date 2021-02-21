@@ -12,15 +12,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProjectType extends AbstractType
 {
     private $imageService;
+    private $slugger;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService, SluggerInterface $slugger)
     {
         $this->imageService = $imageService;
+        $this->slugger = $slugger;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -63,6 +68,13 @@ class ProjectType extends AbstractType
                     'placeholder' => 'Redacta una descripción del proyecto realizado a modo de artículo'
                 ]
             ])
+            ->add('stack', TextType::class, [
+                'required' => false,
+                'label' => 'Tecnologías usadas',
+                'attr' => [
+                    'placeholder' => 'Escribe, separado con comas, las tecnologías usadas en el proyecto'
+                ]
+            ])
             ->add('demo', UrlType::class, [
                 'required' => false,
                 'label' => 'Enlace de demo',
@@ -81,6 +93,14 @@ class ProjectType extends AbstractType
                 ]
             ]);
         }
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+            /** @var Project $project */
+            $project = $event->getData();
+            if ($project->getName() !== null) {
+                $project->setSlug($this->slugger->slug($project->getName())->lower());
+            }
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

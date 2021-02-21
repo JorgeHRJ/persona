@@ -17,6 +17,10 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
+    App\EventListener\InitListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
     App\Service\ImageService:
         arguments:
             $config: '%app.images%'

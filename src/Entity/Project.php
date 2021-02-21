@@ -38,6 +38,13 @@ class Project
     /**
      * @var string|null
      *
+     * @ORM\Column(name="project_slug", type="string", nullable=false)
+     */
+    private $slug;
+
+    /**
+     * @var string|null
+     *
      * @Assert\Length(max=64, maxMessage="El tipo no puede superar los {{ limit }} caracteres")
      *
      * @ORM\Column(name="project_type", type="string", length=64, nullable=true)
@@ -68,6 +75,15 @@ class Project
      * @ORM\Column(name="project_description", type="json", nullable=true)
      */
     private $description;
+
+    /**
+     * @var string|null
+     *
+     * @Assert\Length(max=128, maxMessage="Las tecnologías usadas no puede superar los {{ limit }} caracteres")
+     *
+     * @ORM\Column(name="project_stack", type="string", length=128, nullable=true)
+     */
+    private $stack;
 
     /**
      * @var string|null
@@ -116,6 +132,16 @@ class Project
         return $this;
     }
 
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
     public function getType(): ?string
     {
         return $this->type;
@@ -160,6 +186,18 @@ class Project
     public function setDescription(?array $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getStack(): ?string
+    {
+        return $this->stack;
+    }
+
+    public function setStack(?string $stack): self
+    {
+        $this->stack = $stack;
 
         return $this;
     }

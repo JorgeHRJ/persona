@@ -2,7 +2,6 @@
 
 namespace App\Twig\Extension;
 
-use App\Library\Model\MenuItem;
 use App\Service\MenuService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -24,7 +23,7 @@ class MenuExtension extends AbstractExtension
     }
 
     /**
-     * @return MenuItem[]
+     * @return array
      * @throws \Exception
      */
     public function getMenu(): array

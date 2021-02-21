@@ -1,0 +1,28 @@
+<section class="py-5">
+    <div class="container">
+        <h3 class="section-title fw-bold text-center mb-5 title-bordered">Educación</h3>
+        {% for education in educations %}
+            <div class="media mb-5 flex-column flex-lg-row bg-white shadow-sm">
+                {% set image_src = get_image('card', education) %}
+                {% if image_src is not empty %}
+                    <div class="ms-3 me-3">
+                        <img class="entity-card-image py-2" src="{{ asset(image_src) }}" alt="">
+                    </div>
+                {% endif %}
+                <div class="media-body p-4">
+                    <h4>{{ education.title }}</h4>
+                    <div class="row">
+                        <h5>
+                            {{ education.organization }} |
+                            <span class="text-primary">
+                                {{ education.yearStarted }} -
+                                {{ education.yearEnded is not empty ? education.yearEnded : 'Actualidad' }}
+                            </span>
+                        </h5>
+                        <p>{{ education.description }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>

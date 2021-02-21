@@ -1,0 +1,29 @@
+<div class="profile-teaser media flex-column flex-md-row">
+    {% set image_src = get_image('main', profile) %}
+    {% if image_src is not empty %}
+        <img class="profile-image mb-3 mb-md-0 me-md-5 ms-md-0 rounded mx-auto"
+             src="{{ asset(image_src) }}"
+             alt="Imagen de {{ user.name }}">
+    {% endif %}
+    <div class="media-body text-center text-md-start">
+        <h2 class="mt-0 display-4 fw-light">{{ user.name }}</h2>
+        <div class="lead">{{ profile.title }}</div>
+        {% if profile.presentation is not empty %}
+            <div class="bio mb-3">
+                {{ profile.presentation }}
+            </div>
+        {% endif %}
+        {% set socials = get_social_items(profile) %}
+        {% if socials is not empty %}
+            <ul class="social-list list-inline mb-2">
+                {% for social in socials %}
+                    <li class="list-inline-item">
+                        <a class="text-white" href="{{ social.url }}" target="_blank">
+                            <i class="fab {{ social.icon }} fa-fw"></i>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>

@@ -11,7 +11,7 @@
         }
     ],
     'utilities': 'cms/post/components/utilities.html.twig'
-    } %}
+} %}
 
 {% block content %}
     <div class="row">
@@ -50,7 +50,7 @@
                                 {% for post in data %}
                                     <tr>
                                         <td>
-                                            {{ include('cms/components/image_cell_table.html.twig', {'object': post, 'type': 'card'}) }}
+                                            {{ include('cms/components/image_cell_table.html.twig', {'object': post, 'type': 'thumbnail'}) }}
                                         </td>
                                         <td>{{ post.title }}</td>
                                         <td>{{ post.slug }}</td>
