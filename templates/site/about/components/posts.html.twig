@@ -8,19 +8,24 @@
                         <div class="card-img-container position-relative">
                             {% set image_src = get_image('card', post) %}
                             {% if image_src is not empty %}
-                                <img class="card-img-top rounded-0 post-card-image"
-                                 src="{{ asset(image_src) }}" alt="Artículo {{ post.title }}">
+                                <img class="lazy card-img-top rounded-0 post-card-image"
+                                     data-src="{{ asset(image_src) }}"
+                                     alt="Artículo {{ post.title }}">
                             {% endif %}
                             <div class="card-img-overlay overlay-mask overlay-logo text-center p-0">
                                 <div class="overlay-mask-content text-center w-100 position-absolute">
-                                    <a class="btn btn-primary" href="#">Leer más</a>
+                                    <a class="btn btn-primary"
+                                       href="{{ path('site_blog_post', {'slug': post.slug}) }}">
+                                        Leer más
+                                    </a>
                                 </div>
-                                <a class="overlay-mask-link position-absolute w-100 h-100" href="#"></a>
+                                <a class="overlay-mask-link position-absolute w-100 h-100"
+                                   href="{{ path('site_blog_post', {'slug': post.slug}) }}"></a>
                             </div>
                         </div>
                         <div class="card-body pb-4">
                             <h4 class="card-title text-truncate mb-2">
-                                <a href="#">{{ post.title }}</a>
+                                <a href="{{ path('site_blog_post', {'slug': post.slug}) }}">{{ post.title }}</a>
                             </h4>
                             <div class="card-text">
                                 <ul class="meta list-inline mb-1">

@@ -108,12 +108,16 @@ class BaseController extends AbstractController
     {
         $user = $this->getUser();
         if (!$user instanceof User) {
-            return $this->redirectToRoute('security_login');
+            return $this->redirectToRoute('cms_security_login');
         }
 
         return $user;
     }
 
+    /**
+     * @param ConstraintViolationListInterface $list
+     * @return string
+     */
     public function getConstraintErrorMessages(ConstraintViolationListInterface $list): string
     {
         $message = '';

@@ -1,5 +1,6 @@
 webpack_encore:
     output_path: false
+    preload: true
     builds:
         cms: '%kernel.project_dir%/public/build/cms'
         site: '%kernel.project_dir%/public/build/site'

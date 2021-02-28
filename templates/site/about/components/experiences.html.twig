@@ -6,7 +6,7 @@
                 {% set image_src = get_image('card', experience) %}
                 {% if image_src is not empty %}
                     <div class="ms-3 me-3">
-                        <img class="entity-card-image py-2" src="{{ asset(image_src) }}" alt="">
+                        <img class="lazy entity-card-image py-2" data-src="{{ asset(image_src) }}" alt="">
                     </div>
                 {% endif %}
                 <div class="media-body p-4">

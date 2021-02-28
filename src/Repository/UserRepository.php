@@ -13,6 +13,19 @@ class UserRepository extends BaseRepository
         parent::__construct($registry, User::class);
     }
 
+    public function getAdmin(): User
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb
+            ->addSelect('p')
+            ->join('u.profile', 'p')
+            ->where('u.roles LIKE :role')
+            ->setParameter('role', '%ROLE_ADMIN%')
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     public function getFilterFields(): array
     {
         return [];

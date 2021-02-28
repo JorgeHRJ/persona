@@ -8,6 +8,7 @@ use App\Service\Site\EducationService;
 use App\Service\Site\ExperienceService;
 use App\Service\Site\ProjectService;
 use App\Service\Site\PostService;
+use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -21,19 +22,22 @@ class AboutController extends BaseController
     private $experienceService;
     private $educationService;
     private $certificationService;
+    private $userService;
 
     public function __construct(
         ProjectService $projectService,
         PostService $postService,
         ExperienceService $experienceService,
         EducationService $educationService,
-        CertificationService $certificationService
+        CertificationService $certificationService,
+        UserService $userService
     ) {
         $this->projectService = $projectService;
         $this->postService = $postService;
         $this->experienceService = $experienceService;
         $this->educationService = $educationService;
         $this->certificationService = $certificationService;
+        $this->userService = $userService;
     }
 
     /**
@@ -43,7 +47,7 @@ class AboutController extends BaseController
      */
     public function index(): Response
     {
-        $user = $this->getUserInstance();
+        $user = $this->userService->getAdmin();
 
         $profile = $user->getProfile();
         $projects = $this->projectService->get();

@@ -1,8 +1,15 @@
+// https://github.com/editor-js/awesome-editorjs
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
+import CodeTool from '@editorjs/code';
+import Table from '@editorjs/table';
+import ImageTool from '@editorjs/image';
+import Embed from '@editorjs/embed';
+import Hyperlink from 'editorjs-hyperlink';
 
 function initEditor(textarea) {
+  console.log(textarea.dataset);
   // create div to hold the editor
   const editorDiv = document.createElement('div');
   editorDiv.id = `editor-${textarea.id}`;
@@ -32,6 +39,53 @@ function initEditor(textarea) {
       list: {
         class: List,
         inlineToolbar: true
+      },
+      image: {
+        class: ImageTool,
+        config: {
+          endpoints: {
+            byFile: textarea.dataset.uploadimage,
+          }
+        }
+      },
+      embed: {
+        class: Embed,
+        config: {
+          services: {
+            youtube: true,
+            codepen: true,
+            twitter: true
+          }
+        }
+      },
+      table: {
+        class: Table,
+      },
+      code: {
+        class: CodeTool,
+      },
+      hyperlink: {
+        class: Hyperlink,
+        config: {
+          shortcut: 'CMD+L',
+          target: '_blank',
+          rel: 'nofollow',
+          availableTargets: ['_blank', '_self'],
+          availableRels: ['author', 'noreferrer'],
+          validate: false,
+        }
+      }
+    },
+    i18n: {
+      toolNames: {
+        Hyperlink: 'Link'
+      },
+      tools: {
+        hyperlink: {
+          'Save': 'Guardar',
+          'Select target': 'Target',
+          'Select rel': 'Rel'
+        }
       }
     },
     onChange: (api) => {

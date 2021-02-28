@@ -764,6 +764,13 @@
     "@babel/types" "^7.4.4"
     esutils "^2.0.2"
 
+"@babel/runtime@^7.10.2":
+  version "7.13.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.8.tgz#cc886a85c072df1de23670dc1aa59fc116c4017c"
+  integrity sha512-CwQljpw6qSayc0fRG1soxHAKs1CnQMOChm4mlQP6My0kf9upVGizj/KhlTTgyUnETmHpcUXjaluNAkteRFuafg==
+  dependencies:
+    regenerator-runtime "^0.13.4"
+
 "@babel/runtime@^7.8.4":
   version "7.12.13"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.12.13.tgz#0a21452352b02542db0ffb928ac2d3ca7cb6d66d"
@@ -809,6 +816,11 @@
   resolved "https://registry.yarnpkg.com/@discoveryjs/json-ext/-/json-ext-0.5.2.tgz#8f03a22a04de437254e8ce8cc84ba39689288752"
   integrity sha512-HyYEUDeIj5rRQU2Hk5HTB2uHsbRQpF70nvMhVzi+VJR0X+xNEhjPui4/kBf3VeH/wqD28PT4sVOm8qqLjBrSZg==
 
+"@editorjs/code@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/code/-/code-2.6.0.tgz#402df60d788e211894fde755c5435ba26cc075da"
+  integrity sha512-vJL8EebHQ6cNT1iPmlAtQN5gIy5gAPyElwJDVwOOgczZGR0vstCjwLP9YY2ThsHMv1dwiUXO0JsRqw9m5W7GDw==
+
 "@editorjs/editorjs@^2.19.1":
   version "2.19.1"
   resolved "https://registry.yarnpkg.com/@editorjs/editorjs/-/editorjs-2.19.1.tgz#081daf80dc4f524d457e415f07eb73d0ca6d86ce"
@@ -817,15 +829,37 @@
     codex-notifier "^1.1.2"
     codex-tooltip "^1.0.1"
 
+"@editorjs/embed@^2.4.0":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/embed/-/embed-2.4.0.tgz#589a579df9766f5f675af0f39408eb862fd5b4f3"
+  integrity sha512-sGX0KfPszeGBrlBYlgB1vPn/RYRQ/ORcEb9C2kUnFpmRU+R2yb7t+YD9r4DceTyODTK91imYx1YczMlBewGLDA==
+
 "@editorjs/header@^2.6.1":
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/@editorjs/header/-/header-2.6.1.tgz#454a46e4dbb32ae3aa1db4d22b0ddf2cc36c3134"
   integrity sha512-EsnyVFv5uThpU9tbQ/dUPFCQoa/sBFy2n+9tN3wOXJGx7sjea4fdcacJ2UYhO+7pCgZ+aSgmMOyGLYHUFbchvA==
 
+"@editorjs/image@^2.6.0":
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/image/-/image-2.6.0.tgz#269d8dceebbb5fe667f9152188c425ba8b1c300f"
+  integrity sha512-lX4Pz9cW3gGFzlmYLRAsBXTiqUG/MRG7NK4QVU+n/VnUWPU1e791eiIpgRLHfpPj6Maaw5a+GRut90D5EdXtqg==
+
+"@editorjs/link@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@editorjs/link/-/link-2.3.1.tgz#f4525192670429dd97a1fcc52e607deaa26dddef"
+  integrity sha512-FvZTzgMd8jPZOwcs/ns65hW5H6xAPyxMG/pUsOTDuSH40Ko1G7QPPtUJJ3M6vOH5GJQ9KVwQ3ng3Kx4P9ndFWQ==
+  dependencies:
+    "@babel/runtime" "^7.10.2"
+
 "@editorjs/list@^1.6.2":
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/@editorjs/list/-/list-1.6.2.tgz#38cb307d78ec8b6c55480c538805cdc2ff250ad1"
   integrity sha512-OxowV0yuE11G01czYM1dEQlz1F37ehX0ak5vAbZ9ncSXrPh0fDRw/fBxTY654FlmrsQ40UFom3owSG++tLvVGw==
+
+"@editorjs/table@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@editorjs/table/-/table-1.3.0.tgz#d203352135c86909df8bdb5a6c323a5c5041600d"
+  integrity sha512-3/gr7IkjsYuECndCpcBSKzZQHos7C9QU1ach8avyVbXB3VLAa1RyGjgocu0Ct4d02HdxirrYZ7+vP1Na+s04GQ==
 
 "@fortawesome/fontawesome-free@5.15.1":
   version "5.15.1"
@@ -1768,11 +1802,6 @@ chrome-trace-event@^1.0.2:
   dependencies:
     tslib "^1.9.0"
 
-classnames@^2.2.5:
-  version "2.2.6"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
-  integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
-
 clean-stack@^2.0.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/clean-stack/-/clean-stack-2.2.0.tgz#ee8472dbb129e727b31e8a10a427dee9dfe4008b"
@@ -2001,7 +2030,7 @@ core-js-compat@^3.8.0:
     browserslist "^4.16.1"
     semver "7.0.0"
 
-core-js@^3.0.1, core-js@^3.1.3, core-js@^3.8.3:
+core-js@^3.0.1, core-js@^3.8.3:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.8.3.tgz#c21906e1f14f3689f93abcc6e26883550dd92dd0"
   integrity sha512-KPYXeVZYemC2TkNEkX/01I+7yd+nX3KddKwZ1Ww7SKWdI2wQprSgLmrTddT8nw92AjEklTsPBoSdQBhbI1bQ6Q==
@@ -2460,6 +2489,11 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
+
+editorjs-hyperlink@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/editorjs-hyperlink/-/editorjs-hyperlink-1.0.5.tgz#e882bd128eacc74aacebcbfff805fed7333c7b85"
+  integrity sha512-i9q4hlmP3h5wgK7UbdzsXvdkRcU8moXZIo4439GCfVtTVRAlVc6uqzVJuZw4fJcKZRUxtTOubMx5CrVLbBg6Fg==
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -2950,14 +2984,6 @@ faye-websocket@^0.11.3:
   integrity sha512-D2y4bovYpzziGgbHYtGCMjlJM36vAl/y+xUyn1C+FVx8szd1E+86KwVw6XvYSzOP8iMpm1X0I4xJD+QtUb36OA==
   dependencies:
     websocket-driver ">=0.5.1"
-
-feather-icons@4.28.0:
-  version "4.28.0"
-  resolved "https://registry.yarnpkg.com/feather-icons/-/feather-icons-4.28.0.tgz#e1892a401fe12c4559291770ff6e68b0168e760f"
-  integrity sha512-gRdqKESXRBUZn6Nl0VBq2wPHKRJgZz7yblrrc2lYsS6odkNFDnA4bqvrlEVRUPjE1tFax+0TdbJKZ31ziJuzjg==
-  dependencies:
-    classnames "^2.2.5"
-    core-js "^3.1.3"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -6554,6 +6580,11 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
+
+vanilla-lazyload@^17.3.1:
+  version "17.3.1"
+  resolved "https://registry.yarnpkg.com/vanilla-lazyload/-/vanilla-lazyload-17.3.1.tgz#8b3c3f9ee12b04ef04994304c5418eefe25279e1"
+  integrity sha512-9cag1j3ImrmP0VYbqOIT79qit34nV2SijuCgQucv4RhZs5Ln5xfZSqMSWeWgoBBVFp4AIIVSjpkMxmSoW3WiJQ==
 
 vary@~1.1.2:
   version "1.1.2"

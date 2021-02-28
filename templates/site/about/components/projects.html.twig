@@ -9,8 +9,8 @@
                             <div class="card-img-container position-relative">
                                 {% set image_src = get_image('card', project) %}
                                 {% if image_src is not empty %}
-                                    <img class="card-img-top rounded-0 project-card-image"
-                                        src="{{ asset(image_src) }}"
+                                    <img class="lazy card-img-top rounded-0 project-card-image"
+                                        data-src="{{ asset(image_src) }}"
                                         alt="Proyecto {{ project.name }}">
                                 {% endif %}
                                 <div class="card-img-overlay overlay-logo text-center">

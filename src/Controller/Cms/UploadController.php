@@ -3,6 +3,8 @@
 namespace App\Controller\Cms;
 
 use App\Library\Controller\BaseController;
+use App\Service\Cms\UploadService;
+use App\Service\StorageService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,10 +21,36 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class UploadController extends BaseController
 {
     private $validator;
+    private $uploadService;
 
-    public function __construct(ValidatorInterface $validator)
+    public function __construct(ValidatorInterface $validator, UploadService $uploadService)
     {
         $this->validator = $validator;
+        $this->uploadService = $uploadService;
+    }
+
+    /**
+     * @Route("/post-image", name="post_image")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function postImage(Request $request): Response
+    {
+        $uploadedFile = $request->files->get('image');
+        if (!$uploadedFile instanceof UploadedFile) {
+            return new JsonResponse(['success' => 0], Response::HTTP_BAD_REQUEST);
+        }
+
+        try {
+            $path = $this->uploadService->upload($uploadedFile, UploadService::POST_IMAGE_ORIGIN);
+            return new JsonResponse([
+                'success' => 1,
+                'file' => ['url' => $path]
+            ]);
+        } catch (\Exception $e) {
+            return new JsonResponse(['success' => 0], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**

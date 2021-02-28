@@ -18,8 +18,9 @@
                             <div class="featured-card-image card-img-container position-relative d-md-table-cell">
                                 {% set image_src = get_image('card', featured) %}
                                 {% if image_src is not empty %}
-                                    <img class="card-img-top rounded-0 post-card-image"
-                                         src="{{ asset(image_src) }}" alt="Artículo {{ featured.title }}">
+                                    <img class="lazy card-img-top rounded-0 post-card-image"
+                                         data-src="{{ asset(image_src) }}"
+                                         alt="Artículo {{ featured.title }}">
                                 {% endif %}
                                 <div class="card-img-overlay overlay-mask text-center p-0">
                                     <div class="overlay-mask-content text-center w-100 position-absolute">
@@ -74,8 +75,8 @@
                                 <div class="card-img-container position-relative">
                                     {% set image_src = get_image('card', post) %}
                                     {% if image_src is not empty %}
-                                        <img class="card-img-top rounded-0"
-                                             src="{{ asset(image_src) }}"
+                                        <img class="lazy card-img-top rounded-0"
+                                             data-src="{{ asset(image_src) }}"
                                              alt="Artículo {{ post.title }}">
                                     {% endif %}
                                     <div class="card-img-overlay overlay-mask text-center p-0">

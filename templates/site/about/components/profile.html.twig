@@ -1,8 +1,8 @@
 <div class="profile-teaser media flex-column flex-md-row">
     {% set image_src = get_image('main', profile) %}
     {% if image_src is not empty %}
-        <img class="profile-image mb-3 mb-md-0 me-md-5 ms-md-0 rounded mx-auto"
-             src="{{ asset(image_src) }}"
+        <img class="lazy profile-image mb-3 mb-md-0 me-md-5 ms-md-0 rounded mx-auto"
+             data-src="{{ asset(image_src) }}"
              alt="Imagen de {{ user.name }}">
     {% endif %}
     <div class="media-body text-center text-md-start">

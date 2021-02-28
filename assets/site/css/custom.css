@@ -35,3 +35,20 @@
 .codex-editor__redactor {
     padding-bottom: 100px !important;
 }
+
+.cdx-input .image-tool__caption {
+    text-align: center !important;
+    font-size: 14px !important;
+    font-style: italic !important;
+}
+
+img:not([src]) {
+    visibility: hidden;
+}
+
+/* Fixes Firefox anomaly during image load */
+@-moz-document url-prefix() {
+    img:-moz-loading {
+        visibility: hidden;
+    }
+}

@@ -19,8 +19,8 @@
             <div class="cover-image mb-4">
                 {% set post_image_src = get_image('main', post) %}
                 {% if post_image_src is not empty %}
-                    <img class="img-fluid"
-                         src="{{ asset(post_image_src) }}"
+                    <img class="lazy img-fluid"
+                         data-src="{{ asset(post_image_src) }}"
                          alt="Imagen del artículo {{ post.title }}">
                 {% endif %}
             </div>
@@ -30,8 +30,8 @@
             <div class="media flex-column flex-md-row">
                 {% set author_image_src = get_image('avatar', post.author) %}
                 {% if author_image_src is not empty %}
-                    <img class="author-profile profile-small d-inline-block rounded-circle me-md-4 mb-2 mb-lg-0"
-                         src="{{ asset(author_image_src) }}"
+                    <img class="lazy author-profile profile-small d-inline-block rounded-circle me-md-4 mb-2 mb-lg-0"
+                         data-src="{{ asset(author_image_src) }}"
                          alt="Imagen del autor {{ post.author.name }}">
                 {% endif %}
                 <div class="author-info media-body">
@@ -69,8 +69,8 @@
                                 <div class="card-img-container position-relative">
                                     {% set related_image_src = get_image('card', related_post) %}
                                     {% if related_image_src is not empty %}
-                                        <img class="card-img-top rounded-0"
-                                             src="{{ asset(related_image_src) }}"
+                                        <img class="lazy card-img-top rounded-0"
+                                             data-src="{{ asset(related_image_src) }}"
                                              alt="Imagen del artículo {{ related_post.title }}">
                                     {% endif %}
                                     <div class="card-img-overlay overlay-mask text-center p-0">
