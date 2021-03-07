@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Twig\Tag\PageSetup;
+namespace App\Twig\Tag\Meta;
 
 use Twig\Token;
 use Twig\TokenParser\AbstractTokenParser;
 
-class PageSetupTokenParser extends AbstractTokenParser
+class MetaTokenParser extends AbstractTokenParser
 {
     /**
      * @param Token $token
-     * @return PageSetupNode
+     * @return MetaNode
      * @throws \Twig\Error\SyntaxError
      */
-    public function parse(Token $token): PageSetupNode
+    public function parse(Token $token): MetaNode
     {
         $stream = $this->parser->getStream();
 
         $value = $this->parser->getExpressionParser()->parseExpression();
         $stream->expect(Token::BLOCK_END_TYPE);
 
-        return new PageSetupNode($value, $this->getTag(), $token->getLine(), $this->getTag());
+        return new MetaNode($value, $this->getTag(), $token->getLine(), $this->getTag());
     }
 
     /**
@@ -27,6 +27,6 @@ class PageSetupTokenParser extends AbstractTokenParser
      */
     public function getTag(): string
     {
-        return 'page_setup';
+        return 'meta';
     }
 }

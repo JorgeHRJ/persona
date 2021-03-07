@@ -14,6 +14,12 @@ entities:
     avatar:
       title: 'Avatar'
       size: 160x160
+    og_meta:
+      title: 'OG Meta'
+      size: 1200x627
+    twitter_card_meta:
+      title: 'Twitter Card Meta'
+      size: 300x157
 
   post:
     main:

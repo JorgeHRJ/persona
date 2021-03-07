@@ -2,14 +2,13 @@
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
-import CodeTool from '@editorjs/code';
 import Table from '@editorjs/table';
 import ImageTool from '@editorjs/image';
 import Embed from '@editorjs/embed';
 import Hyperlink from 'editorjs-hyperlink';
+import CodeTool from '@editorjs/code';
 
 function initEditor(textarea) {
-  console.log(textarea.dataset);
   // create div to hold the editor
   const editorDiv = document.createElement('div');
   editorDiv.id = `editor-${textarea.id}`;
@@ -61,9 +60,7 @@ function initEditor(textarea) {
       table: {
         class: Table,
       },
-      code: {
-        class: CodeTool,
-      },
+      code: CodeTool,
       hyperlink: {
         class: Hyperlink,
         config: {

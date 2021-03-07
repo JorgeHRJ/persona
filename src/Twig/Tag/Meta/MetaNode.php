@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Twig\Tag\PageSetup;
+namespace App\Twig\Tag\Meta;
 
-use Twig\Node\Node;
 use Twig\Compiler;
 use Twig\Node\Expression\AbstractExpression;
+use Twig\Node\Node;
 
-class PageSetupNode extends Node
+class MetaNode extends Node
 {
     public function __construct(AbstractExpression $value, string $name, int $line, string $tag = null)
     {
@@ -16,7 +16,7 @@ class PageSetupNode extends Node
     public function compile(Compiler $compiler): void
     {
         $compiler
-            ->raw('$this->env->getExtension(\'App\Twig\Extension\PageSetupExtension\')->configure(')
+            ->raw('$this->env->getExtension(\'App\Twig\Extension\MetaExtension\')->configure(')
             ->subcompile($this->getNode('value'))
             ->raw(');');
     }

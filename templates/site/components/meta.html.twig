@@ -1,0 +1,14 @@
+{% for meta_name, meta_content in meta_tags %}
+    <meta name="{{ meta_name }}" content="{{ meta_content }}">
+{% endfor %}
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% for og_name, og_content in og_tags %}
+    <meta property="{{ og_name }}" content="{{ og_content }}">
+{% endfor %}
+{% for twitter_card_name, twitter_card_content in twitter_card_tags %}
+    <meta name="{{ twitter_card_name }}" content="{{ twitter_card_content }}">
+{% endfor %}
+{% for extra_tag_name, extra_tag_content in extra_tags %}
+    <meta property="{{ extra_tag_name }}" content="{{ extra_tag_content }}">
+{% endfor %}
+<link rel="canonical" href="{{ get_canonical() }}" />

@@ -91,7 +91,7 @@ assets_build() {
 }
 
 assets_watch() {
-  docker run -it -v "$APP_PWD":/home/app $DOCKER_CONTAINER_NODE yarn encore watch
+  docker run -it -v "$APP_PWD":/home/app $DOCKER_CONTAINER_NODE yarn encore dev --watch
 }
 
 assets_cms_build() {

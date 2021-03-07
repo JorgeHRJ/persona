@@ -9,6 +9,10 @@
     }
 } %}
 
+{% meta {
+    'model': post
+} %}
+
 {% block intro %}
     {{ include('site/blog/components/post-intro.html.twig') }}
 {% endblock %}

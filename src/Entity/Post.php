@@ -47,6 +47,16 @@ class Post
     private $slug;
 
     /**
+     * @var string|null
+     *
+     * @Assert\NotBlank(message="El resumen del artículo no puede estar vacío")
+     * @Assert\Length(max=128, maxMessage="El resumen del artículo no puede superar los {{ limit }} caracteres")
+     *
+     * @ORM\Column(name="post_summary", type="string", length=255, nullable=false)
+     */
+    private $summary;
+
+    /**
      * @var array|null
      *
      * @Assert\NotBlank(message="El contenido del artículo no puede estar vacío")
@@ -141,6 +151,16 @@ class Post
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
+    }
+
+    public function getSummary(): ?string
+    {
+        return $this->summary;
+    }
+
+    public function setSummary(string $summary): void
+    {
+        $this->summary = $summary;
     }
 
     public function getContent(): ?array

@@ -3,6 +3,8 @@
 namespace App\Twig\Extension;
 
 use App\Entity\Profile;
+use App\Entity\User;
+use App\Service\UserService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -14,10 +16,18 @@ class ProfileExtension extends AbstractExtension
     const INSTAGRAM_URL_PATTERN = 'https://www.instagram.com/%s';
     const STACKOVERFLOW_URL_PATTERN = 'https://stackoverflow.com/users/%s';
 
+    private $userService;
+
+    public function __construct(UserService $userService)
+    {
+        $this->userService = $userService;
+    }
+
     public function getFunctions()
     {
         return [
-            new TwigFunction('get_social_items', [$this, 'getSocialItems'])
+            new TwigFunction('get_social_items', [$this, 'getSocialItems']),
+            new TwigFunction('get_admin_user', [$this, 'getAdminUser'])
         ];
     }
 
@@ -57,6 +67,14 @@ class ProfileExtension extends AbstractExtension
         ];
 
         return $this->processSocialItems($socials);
+    }
+
+    /**
+     * @return User
+     */
+    public function getAdminUser(): User
+    {
+        return $this->userService->getAdmin();
     }
 
     private function processSocialItems(array $socials): array
