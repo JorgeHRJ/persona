@@ -98,7 +98,7 @@ class SkillGroup
     {
         if (!$this->skills->contains($skill)) {
             $this->skills[] = $skill;
-            $skill->setRelation($this);
+            $skill->setGroup($this);
         }
 
         return $this;
@@ -108,8 +108,8 @@ class SkillGroup
     {
         if ($this->skills->removeElement($skill)) {
             // set the owning side to null (unless already changed)
-            if ($skill->getRelation() === $this) {
-                $skill->setRelation(null);
+            if ($skill->getGroup() === $this) {
+                $skill->setGroup(null);
             }
         }
 

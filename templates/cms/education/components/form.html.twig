@@ -23,7 +23,7 @@
     </div>
     {% set image_types = get_image_types('education') %}
     {% if image_types is not empty %}
-        {{ include('cms/components/images_form.html.twig', {'object': education} ) }}
+        {{ include('cms/components/images_form.html.twig', {'object': education}) }}
     {% endif %}
     <button type="submit" class="btn btn-primary">Enviar</button>
 {{ form_widget(form._token) }}

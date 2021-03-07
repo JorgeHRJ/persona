@@ -26,6 +26,8 @@ abstract class BaseService
 
     abstract public function getSortFields(): array;
     abstract public function getEntityClass(): string;
+    abstract public function getRepository(): BaseRepository;
+
     /**
      * @param object $entity
      * @return object
@@ -93,7 +95,7 @@ abstract class BaseService
      */
     public function get(int $id)
     {
-        return $this->repository->findOneBy(['id' => $id]);
+        return $this->getRepository()->findOneBy(['id' => $id]);
     }
 
     /**
@@ -119,8 +121,8 @@ abstract class BaseService
 
         $offset = $page !== null && $limit !== null ? ($page - 1) * $limit : null;
 
-        $entities = $this->repository->getAll($filter, $orderBy, $limit, $offset);
-        $total = $this->repository->getAllCount($filter);
+        $entities = $this->getRepository()->getAll($filter, $orderBy, $limit, $offset);
+        $total = $this->getRepository()->getAllCount($filter);
 
         return ['total' => $total, 'data' => $entities];
     }
@@ -130,6 +132,6 @@ abstract class BaseService
      */
     public function getAllCount(): int
     {
-        return $this->repository->getAllCount(null);
+        return $this->getRepository()->getAllCount(null);
     }
 }

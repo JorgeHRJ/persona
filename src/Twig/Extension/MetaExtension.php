@@ -117,6 +117,7 @@ class MetaExtension extends AbstractExtension
     }
 
     /**
+     * @SuppressWarnings(PHPMD)
      * @param array $config
      */
     public function configure(array $config): void
@@ -235,11 +236,10 @@ class MetaExtension extends AbstractExtension
         $this->og[sprintf('og:%s', self::OG_DESCRIPTION)] = $post->getSummary();
         $this->og[sprintf('og:%s', self::OG_TYPE)] = 'article';
         $this->og[sprintf('og:%s', self::OG_IMAGE)] = $imageSrc;
-        $this->og[sprintf('og:%s', self::OG_URL)]
-            = $this->router->generate(
-                'site_blog_post',
-                ['slug' => $post->getSlug()],
-                RouterInterface::ABSOLUTE_URL
+        $this->og[sprintf('og:%s', self::OG_URL)] = $this->router->generate(
+            'site_blog_post',
+            ['slug' => $post->getSlug()],
+            RouterInterface::ABSOLUTE_URL
         );
         $this->og[sprintf('og:%s', self::OG_LOCALE)] = 'es_ES';
 

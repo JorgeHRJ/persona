@@ -9,5 +9,11 @@ parameters:
     checkMissingIterableValueType: false
     ignoreErrors:
         -
-            message: '#does not accept Doctrine\\Persistence\\ObjectRepository#'
+            message: '#but returns App\\Library\\Repository\\BaseRepository#'
             path: src/Service/
+        -
+            message: '#does not accept Doctrine\\Persistence\\ObjectRepository#'
+            path: src/Library/Service/
+        -
+            message: '#Unable to resolve the template type T#'
+            path: src/Library/Service/

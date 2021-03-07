@@ -4,30 +4,26 @@
     'title': 'Blog'
 } %}
 
-{% set admin_user = get_admin_user() %}
-{% set description = "Página personal de #{admin_user.name}" %}
-{% set og_image_meta = get_image('og_meta', admin_user.profile) %}
-{% set twitter_card_image_meta = get_image('twitter_card_meta', admin_user.profile) %}
 {% meta {
-    'description': description,
+    'description': "Página personal de #{admin_user.name}",
     'keywords': 'portfolio, personal, blog, desarrollo, software, Symfony, PHP',
     'author': admin_user.name,
     'og': {
         'type': 'article',
         'locale': 'es_ES',
-        'site_name': description,
-        'title': description,
+        'site_name': "Página personal de #{admin_user.name}",
+        'title': "Página personal de #{admin_user.name}",
         'url': get_canonical(),
-        'description': description,
-        'image': absolute_url(asset(og_image_meta))
+        'description': "Página personal de #{admin_user.name}",
+        'image': absolute_url(asset(get_image('og_meta', get_admin_user().profile)))
     },
     'twitter': {
         'card': 'summary_large_image',
-        'title': description,
-        'description': description,
+        'title': "Página personal de #{admin_user.name}",
+        'description': "Página personal de #{admin_user.name}",
         'site': "@#{admin_user.profile.twitter}",
         'creator': "@#{admin_user.profile.twitter}",
-        'image': absolute_url(asset(twitter_card_image_meta))
+        'image': absolute_url(asset(get_image('twitter_card_meta', get_admin_user().profile)))
     }
 } %}
 

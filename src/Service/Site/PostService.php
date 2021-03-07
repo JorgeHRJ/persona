@@ -3,7 +3,9 @@
 namespace App\Service\Site;
 
 use App\Entity\Post;
+use App\Library\Repository\BaseRepository;
 use App\Library\Service\BaseService;
+use App\Repository\PostRepository;
 
 class PostService extends BaseService
 {
@@ -15,12 +17,12 @@ class PostService extends BaseService
      */
     public function getLast(): array
     {
-        return $this->repository->getAll(null, ['publishedAt' => 'DESC'], self::LAST_LIMIT);
+        return $this->getRepository()->getAll(null, ['publishedAt' => 'DESC'], self::LAST_LIMIT);
     }
 
     public function getBySlug(string $slug): ?Post
     {
-        return $this->repository->getBySlug($slug);
+        return $this->getRepository()->getBySlug($slug);
     }
 
     /**
@@ -29,7 +31,7 @@ class PostService extends BaseService
      */
     public function getRelated(Post $post): array
     {
-        return $this->repository->getRelated($post, self::RELATED_LIMIT);
+        return $this->getRepository()->getRelated($post, self::RELATED_LIMIT);
     }
 
     public function getSortFields(): array
@@ -40,5 +42,13 @@ class PostService extends BaseService
     public function getEntityClass(): string
     {
         return Post::class;
+    }
+
+    /**
+     * @return PostRepository
+     */
+    public function getRepository(): BaseRepository
+    {
+        return $this->repository;
     }
 }

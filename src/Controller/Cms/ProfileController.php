@@ -54,7 +54,9 @@ class ProfileController extends BaseController
                 if ($profile->getId() === null) {
                     $profile->setUser($user);
                     $this->profileService->create($profile);
-                } else {
+                }
+
+                if ($profile->getId() !== null) {
                     $this->profileService->edit($profile);
                 }
 

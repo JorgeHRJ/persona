@@ -33,7 +33,7 @@
 </div>
 {% set image_types = get_image_types('profile') %}
 {% if image_types is not empty %}
-    {{ include('cms/components/images_form.html.twig', {'object': profile} ) }}
+    {{ include('cms/components/images_form.html.twig', {'object': profile}) }}
 {% endif %}
 <button type="submit" class="btn btn-primary">Enviar</button>
 {{ form_widget(form._token) }}

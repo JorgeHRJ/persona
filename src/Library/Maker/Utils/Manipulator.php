@@ -11,6 +11,9 @@ use Symfony\Bundle\MakerBundle\ConsoleStyle;
 use Symfony\Bundle\MakerBundle\Util\ClassNameValue;
 use Symfony\Bundle\MakerBundle\Util\PrettyPrinter;
 
+/**
+ * @SuppressWarnings(PHPMD)
+ */
 class Manipulator
 {
     const TABLE_ORM_TYPE = 'Table';
