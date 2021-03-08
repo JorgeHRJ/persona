@@ -4,6 +4,8 @@
     'title': 'Sobre mí',
 } %}
 
+{% set admin_user = get_admin_user() %}
+{# twigcs use-var admin_user #}
 {% meta {
     'description': "Página personal de #{admin_user.name}",
     'keywords': 'portfolio, personal, blog, desarrollo, software, Symfony, PHP',
@@ -15,7 +17,7 @@
         'title': "Página personal de #{admin_user.name}",
         'url': get_canonical(),
         'description': "Página personal de #{admin_user.name}",
-        'image': absolute_url(asset(get_image('og_meta', get_admin_user().profile)))
+        'image': absolute_url(asset(get_image('og_meta', admin_user.profile)))
     },
     'twitter': {
         'card': 'summary_large_image',
@@ -23,7 +25,7 @@
         'description': "Página personal de #{admin_user.name}",
         'site': "@#{admin_user.profile.twitter}",
         'creator': "@#{admin_user.profile.twitter}",
-        'image': absolute_url(asset(get_image('twitter_card_meta', get_admin_user().profile)))
+        'image': absolute_url(asset(get_image('twitter_card_meta', admin_user.profile)))
     }
 } %}
 

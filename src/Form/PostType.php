@@ -11,6 +11,7 @@ use App\Form\Type\TagsInputType;
 use App\Service\ImageService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -39,6 +40,11 @@ class PostType extends AbstractType
                 'required' => true,
                 'label' => 'Título *',
                 'attr' => ['autofocus' => true, 'placeholder' => 'Título']
+            ])
+            ->add('summary', TextareaType::class, [
+                'required' => true,
+                'label' => 'Resumen *',
+                'attr' => ['rows' => 5, 'placeholder' => 'Resumen del artículo']
             ])
             ->add('content', EditorType::class, [
                 'required' => true,

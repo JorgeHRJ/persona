@@ -50,20 +50,27 @@ class Post
      * @var string|null
      *
      * @Assert\NotBlank(message="El resumen del artículo no puede estar vacío")
-     * @Assert\Length(max=128, maxMessage="El resumen del artículo no puede superar los {{ limit }} caracteres")
+     * @Assert\Length(max=255, maxMessage="El resumen del artículo no puede superar los {{ limit }} caracteres")
      *
      * @ORM\Column(name="post_summary", type="string", length=255, nullable=false)
      */
     private $summary;
 
     /**
-     * @var array|null
+     * @var string|null
      *
      * @Assert\NotBlank(message="El contenido del artículo no puede estar vacío")
      *
-     * @ORM\Column(name="post_content", type="json", nullable=false)
+     * @ORM\Column(name="post_content", type="text", nullable=false)
      */
     private $content;
+
+    /**
+     * @var int|null
+     *
+     * @ORM\Column(name="post_read_time", type="integer", nullable=false)
+     */
+    private $readTime;
 
     /**
      * @var \DateTimeInterface|null
@@ -163,14 +170,26 @@ class Post
         $this->summary = $summary;
     }
 
-    public function getContent(): ?array
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(?array $content): void
+    public function setContent(?string $content): void
     {
         $this->content = $content;
+    }
+
+    public function getReadTime(): ?int
+    {
+        return $this->readTime;
+    }
+
+    public function setReadTime(int $readTime): self
+    {
+        $this->readTime = $readTime;
+
+        return $this;
     }
 
     public function getPublishedAt(): ?\DateTimeInterface

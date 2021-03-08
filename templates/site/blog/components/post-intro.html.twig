@@ -1,3 +1,8 @@
 <div>
     <h1 class="mb-2">{{ post.title }}</h1>
+    <p>
+        <i class="far fa-clock" aria-hidden="true"></i>
+        {% set minute_label = post.readTime == 1 ? 'minuto' : 'minutos' %}
+        {{ post.readTime }} {{ minute_label }} aprox. de lectura
+    </p>
 </div>

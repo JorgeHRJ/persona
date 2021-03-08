@@ -78,6 +78,7 @@ class PostController extends BaseController
 
             try {
                 $post->setAuthor($this->getUserInstance());
+                $this->postService->setReadTime($post);
                 $this->postService->create($post);
 
                 $this->imageService->handleRequest($form, $post);
@@ -123,6 +124,7 @@ class PostController extends BaseController
             }
 
             try {
+                $this->postService->setReadTime($post);
                 $this->postService->edit($post);
 
                 $this->imageService->handleRequest($form, $post);

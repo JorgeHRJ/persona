@@ -26,4 +26,12 @@ class PostService extends BaseService
     {
         return $this->repository;
     }
+
+    public function setReadTime(Post $post): void
+    {
+        $word = str_word_count(strip_tags($post->getContent()));
+        $m = (int) floor($word / 200);
+
+        $post->setReadTime($m);
+    }
 }

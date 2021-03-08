@@ -1,95 +1,94 @@
-// https://github.com/editor-js/awesome-editorjs
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import Table from '@editorjs/table';
-import ImageTool from '@editorjs/image';
-import Embed from '@editorjs/embed';
-import Hyperlink from 'editorjs-hyperlink';
-import CodeTool from '@editorjs/code';
+import EasyMDE from 'easymde';
+
+let imageData = null;
+
+function getImage() {
+  return new Promise(((resolve) => {
+    const interval = setInterval(() => {
+      const temp = imageData;
+      if (temp != null) {
+        imageData = null;
+        clearInterval(interval);
+        resolve(temp);
+      }
+    }, 10);
+  }));
+}
+
+function uploadImage(event) {
+  const input = event.currentTarget;
+
+  const file = input.files[0];
+  const url = input.dataset.url;
+
+  return new Promise((resolve, reject) => {
+    const httpRequest = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('image', file);
+    httpRequest.open('POST', url);
+    httpRequest.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    httpRequest.send(formData);
+    httpRequest.onreadystatechange = () => {
+      if (httpRequest.readyState === XMLHttpRequest.DONE) {
+        if (httpRequest.status === 200) {
+          resolve(JSON.parse(httpRequest.response));
+        } else if (httpRequest.status === 500
+          || httpRequest.status === 400
+          || httpRequest.status === 403
+          || httpRequest.status === 404) {
+          reject(httpRequest.status);
+        }
+      }
+    };
+  });
+}
 
 function initEditor(textarea) {
-  // create div to hold the editor
-  const editorDiv = document.createElement('div');
-  editorDiv.id = `editor-${textarea.id}`;
-  editorDiv.classList.add('mt-2');
-  editorDiv.dataset.target = `#${textarea.id}`;
+  // create input to upload images
+  const imageUploadInput = document.createElement('input');
+  imageUploadInput.setAttribute('type', 'file');
+  imageUploadInput.classList.add('hide');
+  imageUploadInput.dataset.component = 'editor-insert-image';
+  imageUploadInput.dataset.url = textarea.dataset.uploadimage;
+  imageUploadInput.addEventListener('change', (event) => {
+    uploadImage(event).then((responseImage) => { imageData = responseImage });
+  });
 
   // add to the container
-  textarea.parentElement.insertBefore(editorDiv, textarea.nextSibling);
+  textarea.parentElement.insertBefore(imageUploadInput, textarea.nextSibling);
 
-  // initialize editor
-  const data = textarea.value ? JSON.parse(textarea.value) : {};
-  let placeholder = textarea.getAttribute('placeholder');
-  if (!placeholder) {
-    placeholder = '';
-  }
-
-  const editor = new EditorJS({
-    holder: editorDiv,
-    data: data,
-    placeholder: placeholder,
-    logLevel: 'ERROR',
-    tools: {
-      header: {
-        class: Header,
-        inlineToolbar : true
+  const editor = new EasyMDE(
+    {
+      element: textarea,
+      status: ['lines', 'words', 'cursor'],
+      autosave: {
+        enabled: false,
       },
-      list: {
-        class: List,
-        inlineToolbar: true
-      },
-      image: {
-        class: ImageTool,
-        config: {
-          endpoints: {
-            byFile: textarea.dataset.uploadimage,
-          }
-        }
-      },
-      embed: {
-        class: Embed,
-        config: {
-          services: {
-            youtube: true,
-            codepen: true,
-            twitter: true
-          }
-        }
-      },
-      table: {
-        class: Table,
-      },
-      code: CodeTool,
-      hyperlink: {
-        class: Hyperlink,
-        config: {
-          shortcut: 'CMD+L',
-          target: '_blank',
-          rel: 'nofollow',
-          availableTargets: ['_blank', '_self'],
-          availableRels: ['author', 'noreferrer'],
-          validate: false,
-        }
-      }
-    },
-    i18n: {
-      toolNames: {
-        Hyperlink: 'Link'
-      },
-      tools: {
-        hyperlink: {
-          'Save': 'Guardar',
-          'Select target': 'Target',
-          'Select rel': 'Rel'
-        }
-      }
-    },
-    onChange: (api) => {
-      api.saver.save().then((data) => {
-        textarea.value = JSON.stringify(data);
-      });
+      spellChecker: false,
+      nativeSpellcheck: true,
+      previewRender: false,
+      autoDownloadFontAwesome: false,
+      hideIcons: ['image'],
+      toolbar: [
+        'bold', 'italic', 'heading', '|', 'undo', 'redo', '|', 'code', 'quote', 'unordered-list', 'ordered-list',
+        {
+          name: 'Insert Image',
+          action: (editor) => {
+            document.querySelector('[data-component="editor-insert-image"]').click();
+            getImage().then((image) => {
+              editor.codemirror.replaceSelection(`![${image.name}](${image.path})`);
+            });
+          },
+          className: 'fa fa-image',
+          title: 'Insert Image',
+        },
+        'link', 'preview', 'side-by-side',
+      ],
     }
+  );
+
+  editor.codemirror.on('change', () => {
+    textarea.value = editor.value();
   });
 }
 

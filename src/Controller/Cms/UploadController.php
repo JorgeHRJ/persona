@@ -43,13 +43,10 @@ class UploadController extends BaseController
         }
 
         try {
-            $path = $this->uploadService->upload($uploadedFile, UploadService::POST_IMAGE_ORIGIN);
-            return new JsonResponse([
-                'success' => 1,
-                'file' => ['url' => $path]
-            ]);
+            $uploadData = $this->uploadService->upload($uploadedFile, UploadService::POST_IMAGE_ORIGIN);
+            return new JsonResponse($uploadData);
         } catch (\Exception $e) {
-            return new JsonResponse(['success' => 0], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(null, Response::HTTP_BAD_REQUEST);
         }
     }
 

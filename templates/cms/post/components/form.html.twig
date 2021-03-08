@@ -6,6 +6,12 @@
     </div>
 </div>
 <div class="row">
+    <div class="mb-3">
+        {{ form_label(form.summary) }}
+        {{ form_widget(form.summary, {'attr': {'class': 'form-control'}}) }}
+    </div>
+</div>
+<div class="row">
     <div class="col-9">
         <div class="mb-3">
             {{ form_label(form.content) }}
