@@ -40,7 +40,7 @@ class SkillGroup
     /**
      * @var Collection|null
      *
-     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="relation")
+     * @ORM\OneToMany(targetEntity=Skill::class, mappedBy="group")
      */
     private $skills;
 

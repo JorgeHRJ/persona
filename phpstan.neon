@@ -13,6 +13,9 @@ parameters:
             path: src/Service/
         -
             message: '#does not accept Doctrine\\Persistence\\ObjectRepository#'
+            path: src/Service/
+        -
+            message: '#does not accept Doctrine\\Persistence\\ObjectRepository#'
             path: src/Library/Service/
         -
             message: '#Unable to resolve the template type T#'

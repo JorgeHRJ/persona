@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Nueva categoría',
+    'header': 'Nueva categoría',
+    'subheader': 'Rellena el formulario para crear una nueva categoría',
+    'breadcrumbs': [
+        {
+            'name': 'Habilidades',
+            'path': path('cms_skillgroup_index')
+        },
+        {
+            'name': 'Nueva categoría',
+            'main': true
+        }
+    ]
+} %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/skillgroup/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+<section class="py-5">
+    <div class="container">
+        <h3 class="section-title fw-bold text-center title-bordered">Habilidades</h3>
+        <div class="section-intro mx-auto text-center text-secondary">
+            {{ admin_user.profile.skillsSummary }}
+        </div>
+        <div class="skills-blocks mx-auto pt-5">
+            <div class="row">
+                {% for group in skill_groups %}
+                    <div class="skills-block col-12 col-lg-4 mb-5 mb-3 mb-lg-0">
+                        <div class="skills-block-inner bg-white shadow-sm py-4 px-5 position-relative">
+                            <h4 class="skills-cat text-center mb-3">{{ group.name }}</h4>
+                            <ul class="skills-list list-unstyled text-secondary">
+                                {% for skill in group.skills %}
+                                <li class="mb-2">
+                                    {% if skill.icon is not empty %}
+                                        <i class="{{ skill.icon }} fa-2x mr-2 text-primary"></i>
+                                    {% endif %}
+                                    {{ skill.name }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

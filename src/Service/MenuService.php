@@ -168,9 +168,17 @@ class MenuService
             'ROLE_ADMIN',
             'fas fa-clipboard'
         );
+        $skillGroupsItem = new MenuItem(
+            'Habilidades',
+            '',
+            $this->isActive('skillgroup'),
+            'cms_skillgroup_index',
+            'ROLE_ADMIN',
+            'fas fa-hammer'
+        );
         $personalGroup = new MenuGroup(
             'Personal',
-            [$profileItem, $educationsItem, $certificationsItem, $experiencesItem, $projectsItem]
+            [$profileItem, $educationsItem, $certificationsItem, $experiencesItem, $projectsItem, $skillGroupsItem]
         );
 
         return [$generalGroup, $editorialGroup, $personalGroup];

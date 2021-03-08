@@ -1,0 +1,112 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Habilidades',
+    'header': 'Habilidades',
+    'subheader': 'Listado de habilidades actualmente creadas',
+    'breadcrumbs': [
+        {
+            'name': 'Habilidades',
+            'main': true
+        }
+    ],
+    'utilities': 'cms/skillgroup/components/utilities.html.twig'
+} %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if data is empty %}
+                        {{ include('cms/components/no-results.html.twig') }}
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                {% if dir == 'asc' %}
+                                    {% set dir_class = '-up' %}
+                                    {% set new_dir = 'desc' %}
+                                {% elseif dir == 'desc' %}
+                                    {% set dir_class = '-down' %}
+                                    {% set new_dir = 'asc' %}
+                                {% else %}
+                                    {% set dir_class = '' %}
+                                    {% set new_dir = '' %}
+                                {% endif %}
+                                {% set filter_query = get_filter_query(params, ['f']) %}
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Creada en</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for group in data %}
+                                    {% set identificator = "accordion-#{group.id}" %}
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-sm"
+                                                    type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="{{ "##{identificator}" }}">
+                                                <i class="fas fa-chevron-down"></i>
+                                            </button>
+                                        </td>
+                                        <td>{{ group.name }}</td>
+                                        <td>{{ group.createdAt|date('d/m/Y H:i:s') }}</td>
+                                        <td class="table-action">
+                                            <a href="{{ path('cms_skill_new', {'groupId': group.id}) }}"
+                                               title="Añadir habilidad">
+                                                <i class="fa fa-plus"></i>
+                                            </a>
+                                            <a href="{{ path('cms_skillgroup_edit', {'id': group.id}) }}"
+                                               title="Editar categoría">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <a href="{{ path('cms_skillgroup_remove', {'id': group.id}) }}"
+                                               title="Eliminar categoría">
+                                                <i class="far fa-trash-alt"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% for skill in group.skills %}
+                                        <tr id="{{ identificator }}" class="accordion-collapse collapse show">
+                                            <td></td>
+                                            <td>
+                                                {% if skill.icon is not empty %}
+                                                    <i class="{{ skill.icon }}"></i>
+                                                {% endif %}
+                                                {{ skill.name }}
+                                            </td>
+                                            <td>{{ skill.createdAt|date('d/m/Y H:i:s') }}</td>
+                                            <td class="table-action">
+                                                <a href="{{ path('cms_skill_edit',
+                                                    {'groupId': group.id, 'id': skill.id}) }}"
+                                                   title="Editar habilidad">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href="{{ path('cms_skill_remove',
+                                                    {'groupId': group.id, 'id': skill.id}) }}"
+                                                   title="Eliminar habilidad">
+                                                    <i class="far fa-trash-alt"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ include(
+                            'cms/components/pagination.html.twig',
+                            paginationData|merge({'params': params, 'dir_class': dir_class, 'new_dir': new_dir, 'fitler_query': filter_query}),
+                            false
+                        ) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

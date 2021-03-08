@@ -1,0 +1,29 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': "Editar habilidad para #{group.name}",
+    'header': "Editar habilidad para #{group.name}",
+    'subheader': "Rellena el formulario para editar una habilidad para #{group.name}",
+    'breadcrumbs': [
+        {
+            'name': 'Habilidades',
+            'path': path('cms_skillgroup_index')
+        },
+        {
+            'name': 'Editar habilidad',
+            'main': true
+        }
+    ]
+} %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {{ include('cms/skill/components/form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

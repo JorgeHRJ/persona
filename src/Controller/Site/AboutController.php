@@ -8,6 +8,7 @@ use App\Service\Site\EducationService;
 use App\Service\Site\ExperienceService;
 use App\Service\Site\ProjectService;
 use App\Service\Site\PostService;
+use App\Service\Site\SkillGroupService;
 use App\Service\UserService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,6 +23,7 @@ class AboutController extends BaseController
     private $experienceService;
     private $educationService;
     private $certificationService;
+    private $groupService;
     private $userService;
 
     public function __construct(
@@ -30,6 +32,7 @@ class AboutController extends BaseController
         ExperienceService $experienceService,
         EducationService $educationService,
         CertificationService $certificationService,
+        SkillGroupService $groupService,
         UserService $userService
     ) {
         $this->projectService = $projectService;
@@ -37,6 +40,7 @@ class AboutController extends BaseController
         $this->experienceService = $experienceService;
         $this->educationService = $educationService;
         $this->certificationService = $certificationService;
+        $this->groupService = $groupService;
         $this->userService = $userService;
     }
 
@@ -55,6 +59,7 @@ class AboutController extends BaseController
         $experiences = $this->experienceService->get();
         $educations = $this->educationService->get();
         $certifications = $this->certificationService->get();
+        $skillGroups = $this->groupService->get();
 
         return $this->render('site/about/index.html.twig', [
             'user' => $user,
@@ -63,7 +68,8 @@ class AboutController extends BaseController
             'posts' => $posts,
             'experiences' => $experiences,
             'educations' => $educations,
-            'certifications' => $certifications
+            'certifications' => $certifications,
+            'skill_groups' => $skillGroups
         ]);
     }
 }
