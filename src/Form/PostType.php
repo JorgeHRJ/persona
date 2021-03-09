@@ -54,9 +54,11 @@ class PostType extends AbstractType
                 ]
             ])
             ->add('publishedAt', DateTimePickerType::class, [
-                'required' => true,
-                'label' => 'Fecha de publicación *',
-                'help' => 'Selecciona una fecha de publicación. A partir de esta fecha estará publicado el artículo',
+                'required' => false,
+                'label' => 'Fecha de publicación',
+                'help' => 'Selecciona una fecha de publicación. 
+                A partir de esta fecha estará publicado el artículo.
+                Puedes dejarlo vacío y quedará como borrador.',
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,

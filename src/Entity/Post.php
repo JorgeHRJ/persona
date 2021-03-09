@@ -77,7 +77,7 @@ class Post
      *
      * @Assert\Type("\DateTimeInterface")
      *
-     * @ORM\Column(name="post_published_at", type="datetime", nullable=false)
+     * @ORM\Column(name="post_published_at", type="datetime", nullable=true)
      */
     private $publishedAt;
 
@@ -197,7 +197,7 @@ class Post
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(\DateTimeInterface $publishedAt): void
+    public function setPublishedAt(?\DateTimeInterface $publishedAt): void
     {
         $this->publishedAt = $publishedAt;
     }

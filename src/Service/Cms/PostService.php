@@ -6,9 +6,26 @@ use App\Entity\Post;
 use App\Library\Repository\BaseRepository;
 use App\Library\Service\BaseService;
 use App\Repository\PostRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
+use Symfony\Contracts\Cache\CacheInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class PostService extends BaseService
 {
+    const CACHE_EXPIRATION = 3600;
+
+    private $cache;
+
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        LoggerInterface $logger,
+        CacheInterface $cache
+    ) {
+        parent::__construct($entityManager, $logger);
+        $this->cache = $cache;
+    }
+
     public function getSortFields(): array
     {
         return [];
@@ -17,6 +34,39 @@ class PostService extends BaseService
     public function getEntityClass(): string
     {
         return Post::class;
+    }
+
+    /**
+     * @return int
+     */
+    public function countPublished(): int
+    {
+        return $this->cache->get('published_articles', function (ItemInterface $item) {
+            $item->expiresAfter(self::CACHE_EXPIRATION);
+            return $this->getRepository()->countPublished();
+        });
+    }
+
+    /**
+     * @return int
+     */
+    public function countUnpublished(): int
+    {
+        return $this->cache->get('unpublished_articles', function (ItemInterface $item) {
+            $item->expiresAfter(self::CACHE_EXPIRATION);
+            return $this->getRepository()->countUnpublished();
+        });
+    }
+
+    /**
+     * @return int
+     */
+    public function countPendingPublish(): int
+    {
+        return $this->cache->get('pending_publish_articles', function (ItemInterface $item) {
+            $item->expiresAfter(self::CACHE_EXPIRATION);
+            return $this->getRepository()->countPendingPublish();
+        });
     }
 
     /**

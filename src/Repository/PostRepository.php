@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Library\Repository\BaseRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -21,7 +23,7 @@ class PostRepository extends BaseRepository
      * @param int|null $limit
      * @param int|null $offset
      *
-     * @return mixed
+     * @return Post[]|array
      */
     public function getAll(string $filter = null, array $orderBy = null, int $limit = null, int $offset = null)
     {
@@ -45,11 +47,84 @@ class PostRepository extends BaseRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @param int|null $limit
+     * @param int|null $offset
+     * @return Post[]|array
+     */
+    public function getPublished(int $limit = null, int $offset = null): array
+    {
+        $qb = $this->createQueryBuilder('p')->select('p');
+
+        $this->setJoins('p', $qb);
+        $this->setPublishedRestriction('p', $qb);
+
+        $qb->orderBy('p.publishedAt', 'DESC');
+
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+
+        if ($offset !== null) {
+            $qb->setFirstResult($offset);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return int
+     */
+    public function countPublished(): int
+    {
+        $qb = $this->createQueryBuilder('p')->select('count(p.id)');
+        $this->setPublishedRestriction('p', $qb);
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function countUnpublished(): int
+    {
+        $qb = $this->createQueryBuilder('p')->select('count(p.id)');
+        $qb
+            ->where('p.publishedAt > :now')
+            ->setParameter('now', new \DateTime());
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return 0;
+        }
+    }
+
+    /**
+     * @return int
+     */
+    public function countPendingPublish(): int
+    {
+        $qb = $this->createQueryBuilder('p')->select('count(p.id)');
+        $qb->where('p.publishedAt IS NULL');
+
+        try {
+            return $qb->getQuery()->getSingleScalarResult();
+        } catch (NoResultException | NonUniqueResultException $e) {
+            return 0;
+        }
+    }
+
     public function getRelated(Post $post, int $limit): array
     {
         $qb = $this->createQueryBuilder('p');
+        $this->setPublishedRestriction('p', $qb);
         $qb
-            ->where('p.category = :categoryId')
+            ->andWhere('p.category = :categoryId')
             ->setParameter('categoryId', $post->getCategory())
         ;
 
@@ -102,5 +177,12 @@ class PostRepository extends BaseRepository
             ->leftJoin(sprintf('%s.tags', $alias), 't')
             ->leftJoin('a.profile', 'pr')
         ;
+    }
+
+    private function setPublishedRestriction(string $alias, QueryBuilder $qb): void
+    {
+        $qb
+            ->where(sprintf('%s.publishedAt <= :now', $alias))
+            ->setParameter('now', new \DateTime());
     }
 }

@@ -41,6 +41,7 @@
                                     <th>Slug</th>
                                     <th>Categoría</th>
                                     <th>Etiquetas</th>
+                                    <th>Estado</th>
                                     <th>Publicada en</th>
                                     <th>Creada en</th>
                                     <th>Acciones</th>
@@ -62,7 +63,11 @@
                                                 <span class="badge bg-secondary">{{ tag.name }}</span>
                                             {% endfor %}
                                         </td>
-                                        <td>{{ post.publishedAt|date('d/m/Y H:i:s') }}</td>
+                                        <td>
+                                            {% set post_status = get_post_status(post) %}
+                                            <span class="badge bg-{{ post_status.badge }}">{{ post_status.label }}</span>
+                                        </td>
+                                        <td>{{ post.publishedAt is not empty ? post.publishedAt|date('d/m/Y H:i:s') : '-' }}</td>
                                         <td>{{ post.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td class="table-action">
                                             <a href="{{ path('cms_post_edit', {'id': post.id}) }}" title="Editar">

@@ -13,13 +13,38 @@ class PostService extends BaseService
     const RELATED_LIMIT = 3;
 
     /**
+     * @param int $limit
+     * @param int $page
+     * @return array
+     */
+    public function getPublished(int $limit, int $page): array
+    {
+        $offset = ($page - 1) * $limit;
+
+        return $this->getRepository()->getPublished($limit, $offset);
+    }
+
+    /**
+     * @return int
+     */
+    public function countPublished(): int
+    {
+        return $this->getRepository()->countPublished();
+    }
+
+    /**
      * @return Post[]|array
      */
     public function getLast(): array
     {
-        return $this->getRepository()->getAll(null, ['publishedAt' => 'DESC'], self::LAST_LIMIT);
+        return $this->getRepository()->getPublished(self::LAST_LIMIT);
     }
 
+    /**
+     * @param string $slug
+     * @return Post|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function getBySlug(string $slug): ?Post
     {
         return $this->getRepository()->getBySlug($slug);

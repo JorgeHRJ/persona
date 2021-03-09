@@ -13,15 +13,30 @@
 } %}
 
 {% block content %}
+    <div class="row mb-2">
+        <h1>¡Bienvenido de nuevo, {{ app.user.name }}!</h1>
+    </div>
     <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h1>Hola</h1>
-                </div>
-                <div class="card-body">
+        {% for stat in stats %}
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col mt-0">
+                                <h5 class="card-title">{{ stat.label }}</h5>
+                            </div>
+                            <div class="col-auto">
+                                <div class="avatar">
+                                    <div class="avatar-title rounded-circle bg-primary-light">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck align-middle"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <h1 class="mt-1 mb-3">{{ stat.data }}</h1>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
     </div>
 {% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Controller\Cms;
 
 use App\Library\Controller\BaseController;
+use App\Service\Cms\StatsService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,6 +12,13 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class DashboardController extends BaseController
 {
+    private $statsService;
+
+    public function __construct(StatsService $statsService)
+    {
+        $this->statsService = $statsService;
+    }
+
     /**
      * @Route("/", name="index")
      *
@@ -18,6 +26,10 @@ class DashboardController extends BaseController
      */
     public function index(): Response
     {
-        return $this->render('cms/dashboard/index.html.twig', []);
+        $stats = $this->statsService->getDashboard();
+
+        return $this->render('cms/dashboard/index.html.twig', [
+            'stats' => $stats
+        ]);
     }
 }

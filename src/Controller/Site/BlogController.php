@@ -35,9 +35,9 @@ class BlogController extends BaseController
             $page = 1;
         }
 
-        list($total, $posts) = array_values(
-            $this->postService->getAll(null, $page, self::LIST_LIMIT, 'publishedAt', 'DESC')
-        );
+        $posts = $this->postService->getPublished(self::LIST_LIMIT, $page);
+        $total = $this->postService->countPublished();
+
         $pages = ceil($total / self::LIST_LIMIT);
 
         $featured = !empty($posts) ? array_shift($posts) : null;
