@@ -40,14 +40,17 @@ class StatsService
             case self::PUBLISHED_ARTICLES:
                 $item['data'] = $this->postService->countPublished();
                 $item['label'] = 'Artículos publicados';
+                $item['icon'] = 'fas fa-calendar-check';
                 break;
             case self::UNPUBLISHED_ARTICLES:
                 $item['data'] = $this->postService->countUnpublished();
                 $item['label'] = 'Artículos no publicados';
+                $item['icon'] = 'fas fa-calendar-times';
                 break;
             case self::PENDING_PUBLISH_ARTICLES:
                 $item['data'] = $this->postService->countPendingPublish();
                 $item['label'] = 'Artículos en borradores';
+                $item['icon'] = 'fas fa-eraser';
                 break;
             default:
                 throw new \Exception(sprintf('Type %s not handled!', $type));
