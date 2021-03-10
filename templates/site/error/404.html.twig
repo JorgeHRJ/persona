@@ -1,0 +1,26 @@
+{% extends 'site/base.html.twig' %}
+
+{% page_setup {
+    'title': 'Página no encontrada',
+    } %}
+
+{% block body %}
+    <main class="d-flex w-100 h-100">
+        <div class="container d-flex flex-column">
+            <div class="row vh-100">
+                <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+                    <div class="d-table-cell align-middle">
+                        <div class="text-center">
+                            <h1 class="display-1 fw-bold">Ups...</h1>
+                            <p class="h1">Página no encontrada</p>
+                            <p class="h2 fw-normal mt-3 mb-4">
+                                La página que deseas visualizar no se ha encontrado.
+                            </p>
+                            <a href="{{ path('site_about_index') }}" class="btn btn-primary">Volver</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

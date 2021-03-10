@@ -1,0 +1,68 @@
+{% extends 'site/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Blog'
+    } %}
+
+{% set admin_user = get_admin_user() %}
+{# twigcs use-var admin_user #}
+{% meta {
+    'description': "Contactar con #{admin_user.name}",
+    'keywords': 'portfolio, personal, blog, desarrollo, software, Symfony, PHP',
+    'author': admin_user.name,
+    'og': {
+        'type': 'article',
+        'locale': 'es_ES',
+        'site_name': "Contactar con #{admin_user.name}",
+        'title': "Contactar con #{admin_user.name}",
+        'url': get_canonical(),
+        'description': "Contactar con #{admin_user.name}",
+        'image': absolute_url(asset(get_image('og_meta', admin_user.profile)))
+    },
+    'twitter': {
+        'card': 'summary_large_image',
+        'title': "Contactar con #{admin_user.name}",
+        'description': "Contactar con #{admin_user.name}",
+        'site': "@#{admin_user.profile.twitter}",
+        'creator': "@#{admin_user.profile.twitter}",
+        'image': absolute_url(asset(get_image('twitter_card_meta', admin_user.profile)))
+    }
+} %}
+
+{% block intro %}
+    {{ include('site/contact/components/form-intro.html.twig') }}
+{% endblock %}
+
+{% block content %}
+<section class="section pt-5">
+    <div class="container">
+        <div class="row">
+            {{ include('site/components/flash.html.twig') }}
+            {{ form_start(form, {'attr': {'id': 'contact-form', 'class': 'contact-form col-lg-8 mx-lg-auto'}}) }}
+            <h3 class="text-center mb-3">Contacta conmigo</h3>
+            <div class="row mb-2">
+                <div class="col-6">
+                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+                </div>
+            </div>
+            <div class="col-12 mb-2">
+                {{ form_widget(form.message, {'attr': {'class': 'form-control', 'rows': 10}}) }}
+            </div>
+            <div class="col-12 mb-2">
+                {{ form_widget(form.acceptance) }}
+                {{ form_label(form.acceptance) }}
+            </div>
+            <div class="col-12 mb-2">
+                <button type="submit" class="btn btn-block btn-primary py-2">Enviar</button>
+            </div>
+
+            {{ form_widget(form.captcha) }}
+            {{ form_widget(form._token) }}
+            {{ form_end(form, {'render_rest': false}) }}
+        </div>
+    </div>
+</section>
+{% endblock %}

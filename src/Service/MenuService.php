@@ -54,8 +54,16 @@ class MenuService
             'IS_AUTHENTICATED_ANONYMOUSLY',
             ''
         );
+        $contactItem = new MenuItem(
+            'Contacto',
+            '',
+            $this->isActive('contact'),
+            'site_contact_form',
+            'IS_AUTHENTICATED_ANONYMOUSLY',
+            ''
+        );
 
-        return [$aboutItem, $blogItem];
+        return [$aboutItem, $blogItem, $contactItem];
     }
 
     /**
@@ -87,6 +95,7 @@ class MenuService
     }
 
     /**
+     * @SuppressWarnings(PHPMD)
      * @return MenuGroup[]
      * @throws \Exception
      */
@@ -100,7 +109,15 @@ class MenuService
             'ROLE_USER',
             'fas fa-tachometer-alt'
         );
-        $generalGroup = new MenuGroup('General', [$dashboardItem]);
+        $contactItem = new MenuItem(
+            'Contactos',
+            '',
+            $this->isActive('contact'),
+            'cms_contact_index',
+            'ROLE_ADMIN',
+            'fas fa-envelope'
+        );
+        $generalGroup = new MenuGroup('General', [$dashboardItem, $contactItem]);
 
         $postsItem = new MenuItem(
             'Artículos',

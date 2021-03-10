@@ -1,0 +1,83 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Contactos',
+    'header': 'Contactos',
+    'subheader': 'Listado de contactos recibidos',
+    'breadcrumbs': [
+        {
+            'name': 'Contactos',
+            'main': true
+        }
+    ],
+} %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if data is empty %}
+                        {{ include('cms/components/no-results.html.twig') }}
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                {% if dir == 'asc' %}
+                                    {% set dir_class = '-up' %}
+                                    {% set new_dir = 'desc' %}
+                                {% elseif dir == 'desc' %}
+                                    {% set dir_class = '-down' %}
+                                    {% set new_dir = 'asc' %}
+                                {% else %}
+                                    {% set dir_class = '' %}
+                                    {% set new_dir = '' %}
+                                {% endif %}
+                                {% set filter_query = get_filter_query(params, ['f']) %}
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Resumen</th>
+                                    <th>Estado</th>
+                                    <th>Creada en</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for contact in data %}
+                                    <tr>
+                                        <td>
+                                            {% set contact_icon = contact.status == constant('App\\Entity\\Contact::STATUS_UNREAD') ? 'envelope' : 'envelope-open' %}
+                                            <i class="fas fa-{{ contact_icon }}"></i>
+                                        </td>
+                                        <td>{{ contact.name }}</td>
+                                        <td>{{ contact.email }}</td>
+                                        <td>{{ contact.message|length > 50 ? contact.message|slice(0, 50) ~ '...' : contact.message }}</td>
+                                        <td>
+                                            {% set contact_status = get_contact_status(contact) %}
+                                            <span class="badge bg-{{ contact_status.badge }}">{{ contact_status.label }}</span>
+                                        </td>
+                                        <td>{{ contact.createdAt|date('d/m/Y H:i:s') }}</td>
+                                        <td class="table-action">
+                                            <a href="{{ path('cms_contact_show', {'id': contact.id}) }}"
+                                               title="Ver en detalle">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ include(
+                            'cms/components/pagination.html.twig',
+                            paginationData|merge({'params': params, 'dir_class': dir_class, 'new_dir': new_dir, 'fitler_query': filter_query}),
+                            false
+                        ) }}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -80,6 +80,7 @@ class PostController extends BaseController
                 $post->setAuthor($this->getUserInstance());
                 $this->postService->setReadTime($post);
                 $this->postService->create($post);
+                $this->postService->clearCache();
 
                 $this->imageService->handleRequest($form, $post);
 
@@ -126,6 +127,7 @@ class PostController extends BaseController
             try {
                 $this->postService->setReadTime($post);
                 $this->postService->edit($post);
+                $this->postService->clearCache();
 
                 $this->imageService->handleRequest($form, $post);
 
@@ -158,6 +160,7 @@ class PostController extends BaseController
 
         try {
             $this->postService->remove($post);
+            $this->postService->clearCache();
 
             $this->imageService->removeEntityImages($post);
 

@@ -1,0 +1,52 @@
+{% extends 'cms/layout.html.twig' %}
+
+{% page_setup {
+    'title': 'Contacto en detalle',
+    'header': 'En detalle',
+    'subheader': 'Lee el contacto recibido en detalle',
+    'breadcrumbs': [
+        {
+            'name': 'Contactos',
+            'path': path('cms_contact_index')
+        },
+        {
+            'name': 'En detalle',
+            'main': true
+        }
+    ]
+} %}
+
+{% block content %}
+    <div class="card">
+        <div class="row g-0">
+            <div class="col-12">
+                <div class="py-2 px-4 border-bottom d-none d-lg-block">
+                    <div class="d-flex align-items-center py-1">
+                        <div class="flex-grow-1 ps-3">
+                            <div class="mb-2"><strong>{{ contact.name }}</strong></div>
+                            <div class="text-muted small">{{ contact.email }}</div>
+                            <div class="text-muted small">{{ contact.createdAt|date('d/m/Y H:i:s') }}</div>
+                        </div>
+                        <div>
+                            <a href="{{ path('cms_contact_mark', {'id': contact.id, 'status': constant('App\\Entity\\Contact::STATUS_UNREAD')}) }}"
+                               class="btn btn-primary btn-lg me-1 px-3"
+                               title="Marcar como no leído">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="position-relative">
+                    <div class="chat-messages p-4">
+                        <div class="chat-message-left pb-4">
+                            <div class="flex-shrink-1 bg-light rounded py-2 px-3 me-3">
+                                {{ contact.message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
