@@ -70,9 +70,9 @@ class Project
     private $summary;
 
     /**
-     * @var array|null
+     * @var string|null
      *
-     * @ORM\Column(name="project_description", type="json", nullable=true)
+     * @ORM\Column(name="project_description", type="text", nullable=true)
      */
     private $description;
 
@@ -178,12 +178,12 @@ class Project
         return $this;
     }
 
-    public function getDescription(): ?array
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    public function setDescription(?array $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
