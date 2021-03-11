@@ -14,7 +14,7 @@ cd ../../../
 docker exec persona-php composer dump-env prod
 docker exec persona-php composer install --no-dev --optimize-autoloader
 docker exec persona-php bin/console doctrine:schema:update --force
-docker run -v $(pwd):/home/app persona-node yarn install
+docker run -v $(pwd):/home/app persona-node yarn install --force
 docker run -v $(pwd):/home/app persona-node yarn encore production
 
 docker exec persona-php bin/console cache:clear
