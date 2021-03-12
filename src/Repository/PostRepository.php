@@ -43,6 +43,7 @@ class PostRepository extends BaseRepository
             $qb->setFirstResult($offset);
             $qb->setMaxResults($limit);
         }
+        $qb->groupBy('p');
 
         return $qb->getQuery()->getResult();
     }
@@ -68,6 +69,7 @@ class PostRepository extends BaseRepository
         if ($offset !== null) {
             $qb->setFirstResult($offset);
         }
+        $qb->groupBy('p');
 
         return $qb->getQuery()->getResult();
     }
@@ -125,7 +127,9 @@ class PostRepository extends BaseRepository
         $this->setPublishedRestriction('p', $qb);
         $qb
             ->andWhere('p.category = :categoryId')
+            ->andWhere('p.id <> :postId')
             ->setParameter('categoryId', $post->getCategory())
+            ->setParameter('postId', $post->getId())
         ;
 
         if (!$post->getTags()->isEmpty()) {

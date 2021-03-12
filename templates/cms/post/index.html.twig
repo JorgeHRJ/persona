@@ -70,6 +70,10 @@
                                         <td>{{ post.publishedAt is not empty ? post.publishedAt|date('d/m/Y H:i:s') : '-' }}</td>
                                         <td>{{ post.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td class="table-action">
+                                            <a href="{{ path('site_blog_post', {'slug': post.slug}) }}"
+                                               title="Ver públicamente">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
                                             <a href="{{ path('cms_post_edit', {'id': post.id}) }}" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
