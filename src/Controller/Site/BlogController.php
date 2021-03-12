@@ -63,6 +63,14 @@ class BlogController extends BaseController
             throw new NotFoundHttpException();
         }
 
+        if (!$post->getPublishedAt() instanceof \DateTimeInterface) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($post->getPublishedAt() > (new \DateTime())) {
+            throw new NotFoundHttpException();
+        }
+
         $related = $this->postService->getRelated($post);
 
         return $this->render('site/blog/post.html.twig', [

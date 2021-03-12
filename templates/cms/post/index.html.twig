@@ -71,7 +71,8 @@
                                         <td>{{ post.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td class="table-action">
                                             <a href="{{ path('site_blog_post', {'slug': post.slug}) }}"
-                                               title="Ver públicamente">
+                                               title="Ver públicamente"
+                                               target="_blank">
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ path('cms_post_edit', {'id': post.id}) }}" title="Editar">
