@@ -28,22 +28,38 @@ class PostRepository extends BaseRepository
     public function getAll(string $filter = null, array $orderBy = null, int $limit = null, int $offset = null)
     {
         $alias = 'p';
-        $qb = $this->createQueryBuilder($alias)->select($alias);
+        $qb = $this->createQueryBuilder($alias);
 
-        $this->setJoins($alias, $qb);
+        if ($limit === null && $offset === null) {
+            return $this->getAllNoPaginated($qb, $alias, $filter, $orderBy);
+        }
+
+        $qb->select(sprintf('%s.id', $alias));
         $this->setFilter($alias, $qb, $filter);
+
+        if ($offset !== null) {
+            $qb->setFirstResult($offset);
+        }
+
+        if ($limit !== null) {
+            $qb->setMaxResults($limit);
+        }
+
+        $ids = $qb->getQuery()->getArrayResult();
+        $ids = array_column($ids, 'id');
+
+        $qb = $this->createQueryBuilder($alias)->select($alias);
+        $this->setJoins($alias, $qb);
+
+        $qb
+            ->andWhere(sprintf('%s.id IN (:ids)', $alias))
+            ->setParameter('ids', $ids);
 
         if (!empty($orderBy)) {
             foreach ($orderBy as $field => $dir) {
                 $qb->orderBy(sprintf('%s.%s', $alias, $field), $dir);
             }
         }
-
-        if ($limit !== null && $offset !== null) {
-            $qb->setFirstResult($offset);
-            $qb->setMaxResults($limit);
-        }
-        $qb->groupBy('p');
 
         return $qb->getQuery()->getResult();
     }
@@ -55,12 +71,9 @@ class PostRepository extends BaseRepository
      */
     public function getPublished(int $limit = null, int $offset = null): array
     {
-        $qb = $this->createQueryBuilder('p')->select('p');
-
-        $this->setJoins('p', $qb);
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p.id');
         $this->setPublishedRestriction('p', $qb);
-
-        $qb->orderBy('p.publishedAt', 'DESC');
 
         if ($limit !== null) {
             $qb->setMaxResults($limit);
@@ -69,7 +82,17 @@ class PostRepository extends BaseRepository
         if ($offset !== null) {
             $qb->setFirstResult($offset);
         }
-        $qb->groupBy('p');
+
+        $ids = $qb->getQuery()->getArrayResult();
+        $ids = array_column($ids, 'id');
+
+        $qb = $this->createQueryBuilder('p')->select('p');
+        $this->setJoins('p', $qb);
+
+        $qb
+            ->andWhere('p.id IN (:ids)')
+            ->setParameter('ids', $ids);
+        $qb->orderBy('p.publishedAt', 'DESC');
 
         return $qb->getQuery()->getResult();
     }
@@ -121,6 +144,11 @@ class PostRepository extends BaseRepository
         }
     }
 
+    /**
+     * @param Post $post
+     * @param int $limit
+     * @return array
+     */
     public function getRelated(Post $post, int $limit): array
     {
         $qb = $this->createQueryBuilder('p');
@@ -167,6 +195,26 @@ class PostRepository extends BaseRepository
     public function getFilterFields(): array
     {
         return [];
+    }
+
+    private function getAllNoPaginated(
+        QueryBuilder $qb,
+        string $alias,
+        string $filter = null,
+        array $orderBy = null
+    ): array {
+        $qb->select($alias);
+
+        $this->setJoins($alias, $qb);
+        $this->setFilter($alias, $qb, $filter);
+
+        if (!empty($orderBy)) {
+            foreach ($orderBy as $field => $dir) {
+                $qb->orderBy(sprintf('%s.%s', $alias, $field), $dir);
+            }
+        }
+
+        return $qb->getQuery()->getResult();
     }
 
     private function setJoins(string $alias, QueryBuilder $qb): void
