@@ -3,6 +3,7 @@
 namespace App\Service\Cms;
 
 use App\Entity\Post;
+use App\Library\Model\PostFeed;
 use App\Library\Repository\BaseRepository;
 use App\Library\Service\BaseService;
 use App\Repository\PostRepository;
@@ -75,6 +76,15 @@ class PostService extends BaseService
             $item->expiresAfter(self::CACHE_EXPIRATION);
             return $this->getRepository()->countPendingPublish();
         });
+    }
+
+    /**
+     * @param int $limit
+     * @return PostFeed[]|array
+     */
+    public function getForFeed(int $limit): array
+    {
+        return $this->repository->getForFeed($limit);
     }
 
     /**

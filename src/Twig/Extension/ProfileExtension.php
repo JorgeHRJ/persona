@@ -27,7 +27,8 @@ class ProfileExtension extends AbstractExtension
     {
         return [
             new TwigFunction('get_social_items', [$this, 'getSocialItems']),
-            new TwigFunction('get_admin_user', [$this, 'getAdminUser'])
+            new TwigFunction('get_admin_user', [$this, 'getAdminUser']),
+            new TwigFunction('get_admin_name', [$this, 'getAdminName'])
         ];
     }
 
@@ -75,6 +76,14 @@ class ProfileExtension extends AbstractExtension
     public function getAdminUser(): User
     {
         return $this->userService->getAdmin();
+    }
+
+    /**
+     * @return string
+     */
+    public function getAdminName(): string
+    {
+        return $this->userService->getAdmin()->getName();
     }
 
     private function processSocialItems(array $socials): array

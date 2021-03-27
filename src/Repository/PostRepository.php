@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use App\Entity\Tag;
+use App\Library\Model\PostFeed;
 use App\Library\Repository\BaseRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -190,6 +191,24 @@ class PostRepository extends BaseRepository
             ->setParameter('slug', $slug);
 
         return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @param int $limit
+     * @return PostFeed[]|array
+     */
+    public function getForFeed(int $limit): array
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb
+            ->select(sprintf('NEW %s(p.title, p.slug, p.summary, a.email, c.name, p.publishedAt)', PostFeed::class))
+            ->join('p.category', 'c')
+            ->join('p.author', 'a');
+        $this->setPublishedRestriction('p', $qb);
+
+        $qb->orderBy('p.publishedAt', 'DESC')->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
     }
 
     public function getFilterFields(): array

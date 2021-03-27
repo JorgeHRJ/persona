@@ -3,16 +3,26 @@
 namespace App\Twig\Extension;
 
 use Symfony\Component\Form\FormView;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class UtilsExtension extends AbstractExtension
 {
+    private $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     public function getFunctions()
     {
         return [
             new TwigFunction('get_filter_query', [$this, 'getFilterQuery']),
-            new TwigFunction('get_form_children', [$this, 'getFormChildren'])
+            new TwigFunction('get_form_children', [$this, 'getFormChildren']),
+            new TwigFunction('get_site', [$this, 'getSite'])
         ];
     }
 
@@ -36,5 +46,15 @@ class UtilsExtension extends AbstractExtension
     public function getFormChildren(FormView $form, string $var): FormView
     {
         return $form->children[$var];
+    }
+
+    public function getSite(): string
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        if (!$request instanceof Request) {
+            return '';
+        }
+
+        return $request->getSchemeAndHttpHost();
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+<channel>
+    <title>Blog de {{ get_admin_name() }}</title>
+    <link>{{ get_site() }}</link>
+    <description>Blog de {{ get_admin_name() }}</description>
+    <category>{{ get_site_keywords('/') }}</category>
+    <language>es-es</language>
+    {% for post in posts %}
+        <item>
+            <title>{{ post.title }}</title>
+            <link>{{ url('site_blog_post', {'slug': post.slug}) }}</link>
+            <description>{{ post.description }}</description>
+            <category>{{ post.category }}</category>
+            <pubDate>{{ post.pubDate|date('D, d M Y H:i:s T') }}</pubDate>
+        </item>
+    {% endfor %}
+</channel>
+</rss>

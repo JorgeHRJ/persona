@@ -4,6 +4,7 @@ namespace App\Controller\Site;
 
 use App\Entity\Post;
 use App\Library\Controller\BaseController;
+use App\Service\Cms\FeedService;
 use App\Service\Site\PostService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

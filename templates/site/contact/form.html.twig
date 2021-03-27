@@ -8,7 +8,7 @@
 {# twigcs use-var admin_user #}
 {% meta {
     'description': "Contactar con #{admin_user.name}",
-    'keywords': 'portfolio, personal, blog, desarrollo, software, Symfony, PHP',
+    'keywords': get_site_keywords(),
     'author': admin_user.name,
     'og': {
         'type': 'article',

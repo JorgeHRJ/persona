@@ -112,7 +112,8 @@ class MetaExtension extends AbstractExtension
     {
         return [
             new TwigFunction('get_meta_tags', [$this, 'getMetaTags']),
-            new TwigFunction('get_canonical', [$this, 'getCanonical'])
+            new TwigFunction('get_canonical', [$this, 'getCanonical']),
+            new TwigFunction('get_site_keywords', [$this, 'getSiteKeywords'])
         ];
     }
 
@@ -253,5 +254,11 @@ class MetaExtension extends AbstractExtension
             $this->twitter[sprintf('twitter:%s', self::TWITTER_CARD_SITE)]
                 = sprintf('@%s', $post->getAuthor()->getProfile()->getTwitter());
         }
+    }
+
+    public function getSiteKeywords(string $separator = ','): string
+    {
+        $keywords = ['Portfolio', 'Blog', 'Desarrollo', 'Software', 'Symfony', 'PHP'];
+        return implode($separator, $keywords);
     }
 }
