@@ -11,6 +11,7 @@
     {% block stylesheets %}
         <link type="text/css" rel="stylesheet" href="{{ preload(asset('build/site/site.css', 'site'), {as: 'style'}) }}"/>
     {% endblock %}
+    {{ include('site/analytics/gtm.html.twig') }}
 </head>
 <body {{ get_body_attr() }}>
 {% block body %}{% endblock %}

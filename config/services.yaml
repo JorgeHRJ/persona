@@ -33,3 +33,7 @@ services:
     App\Service\MailerService:
         arguments:
             $from: '%env(FROM_MAIL)%'
+
+    App\Twig\Extension\AnalyticsExtension:
+        arguments:
+            $gtmId: '%env(GTM_ID)%'
