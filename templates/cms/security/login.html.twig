@@ -17,7 +17,9 @@
                         <div class="card">
                             <div class="card-body">
                                 {% if error %}
-                                    <div class="alert alert-danger">{{ error.message }}</div>
+                                    <div class="alert alert-danger">
+                                        Ha habido un error al iniciar sesión. ¿Has introducido las credenciales correctas?
+                                    </div>
                                 {% endif %}
                                 <div class="m-sm-4">
                                     <form method="post" action="{{ path('cms_security_login') }}">
