@@ -84,7 +84,7 @@ class PostService extends BaseService
      */
     public function getForFeed(int $limit): array
     {
-        return $this->repository->getForFeed($limit);
+        return $this->getRepository()->getForFeed($limit);
     }
 
     /**
