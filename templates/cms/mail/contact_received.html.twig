@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Persona - Nuevo contacto</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+</head>
+<body>
+<h2>¡Hola!</h2>
+<p>Has recibido un nuevo mensaje de contacto. Esta es la información del mismo</p>
+<ul>
+    <li><strong>Nombre:</strong> {{ name }}</li>
+    <li><strong>Email:</strong> {{ email }}</li>
+    <li><strong>Mensaje:</strong> {{ message }}</li>
+</ul>
+<p>
+    Puedes ver este mensaje y más en tu CMS:
+    <a href="{{ url('cms_contact_index') }}">{{ url('cms_contact_index') }}</a>
+</p>
+<hr>
+<p>Persona CMS</p>
+</body>
+</html>

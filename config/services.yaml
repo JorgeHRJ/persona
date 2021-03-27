@@ -29,3 +29,7 @@ services:
         arguments:
             $publicFolder: '%kernel.project_dir%/public'
             $assetsFolder: '%env(ASSETS_FOLDER)%'
+
+    App\Service\MailerService:
+        arguments:
+            $from: '%env(FROM_MAIL)%'

@@ -5,6 +5,9 @@ namespace App\Controller\Site;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Library\Controller\BaseController;
+use App\Library\Mail\ContactReceivedMail;
+use App\Library\Mail\RegisteredClientMail;
+use App\Service\MailerService;
 use App\Service\Site\ContactService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,10 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContactController extends BaseController
 {
     private $contactService;
+    private $mailerService;
 
-    public function __construct(ContactService $contactService)
+    public function __construct(ContactService $contactService, MailerService $mailerService)
     {
         $this->contactService = $contactService;
+        $this->mailerService = $mailerService;
     }
 
     /**
@@ -52,6 +57,20 @@ class ContactController extends BaseController
                 );
             } catch (\Exception $e) {
                 $this->addFlash('app_error', $this->getFormErrorMessagesList($form, true));
+            }
+
+            try {
+                $mail = new ContactReceivedMail();
+                $mail->prepare(
+                    $this->mailerService->getFrom(),
+                    [
+                        'name' => $contact->getName(),
+                        'email' => $contact->getEmail(),
+                        'message' => $contact->getMessage()
+                    ]
+                );
+                $this->mailerService->send($mail);
+            } catch (\Exception $e) {
             }
         }
 
