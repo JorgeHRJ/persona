@@ -26,7 +26,7 @@
         "@popperjs/core": "^2.5.4",
         "bootstrap": "^5.0.0-alpha2",
         "choices.js": "^9.0.1",
-        "cropperjs": "^1.5.10",
+        "cropperjs": "^1.5.11",
         "dropzone": "^5.7.6",
         "easymde": "^2.14.0",
         "editorjs-hyperlink": "^1.0.5",
