@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    {% for item in items %}
+    <url>
+        <loc>{{ sanitize_sitemap_loc(item.loc) }}</loc>
+        {% if item.lastModification is not empty%}
+            <lastmod>{{ item.lastModification|date('YYYY-MM-DD') }}</lastmod>
+        {% endif %}
+        <changefreq>{{ item.frequency }}</changefreq>
+        <priority>{{ item.priority }}</priority>
+    </url>
+    {% endfor %}
+</urlset>
