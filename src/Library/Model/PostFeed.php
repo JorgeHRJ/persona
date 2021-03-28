@@ -4,34 +4,22 @@ namespace App\Library\Model;
 
 class PostFeed
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $title;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $slug;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $description;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $author;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     private $category;
 
-    /**
-     * @var \DateTimeInterface
-     */
+    /** @var \DateTimeInterface */
     private $pubDate;
 
     public function __construct(

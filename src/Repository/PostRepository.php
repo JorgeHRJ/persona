@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Post;
 use App\Entity\Tag;
 use App\Library\Model\PostFeed;
+use App\Library\Model\PostSitemap;
 use App\Library\Repository\BaseRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -204,6 +205,21 @@ class PostRepository extends BaseRepository
             ->select(sprintf('NEW %s(p.title, p.slug, p.summary, a.email, c.name, p.publishedAt)', PostFeed::class))
             ->join('p.category', 'c')
             ->join('p.author', 'a');
+        $this->setPublishedRestriction('p', $qb);
+
+        $qb->orderBy('p.publishedAt', 'DESC')->setMaxResults($limit);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param int $limit
+     * @return PostSitemap[]|array
+     */
+    public function getForSitemap(int $limit): array
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select(sprintf('NEW %s(p.slug, p.modifiedAt)', PostSitemap::class));
         $this->setPublishedRestriction('p', $qb);
 
         $qb->orderBy('p.publishedAt', 'DESC')->setMaxResults($limit);

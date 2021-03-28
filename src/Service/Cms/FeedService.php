@@ -3,6 +3,7 @@
 namespace App\Service\Cms;
 
 use Twig\Environment;
+use App\Service\Site\PostService;
 
 class FeedService
 {

@@ -22,7 +22,8 @@ class UtilsExtension extends AbstractExtension
         return [
             new TwigFunction('get_filter_query', [$this, 'getFilterQuery']),
             new TwigFunction('get_form_children', [$this, 'getFormChildren']),
-            new TwigFunction('get_site', [$this, 'getSite'])
+            new TwigFunction('get_site', [$this, 'getSite']),
+            new TwigFunction('sanitize_sitemap_loc', [$this, 'sanitizeSitemapLoc'])
         ];
     }
 
@@ -56,5 +57,10 @@ class UtilsExtension extends AbstractExtension
         }
 
         return $request->getSchemeAndHttpHost();
+    }
+
+    public function sanitizeSitemapLoc(string $loc): string
+    {
+        return substr($loc, -1) === '/' ? $loc : sprintf('%s/', $loc);
     }
 }
