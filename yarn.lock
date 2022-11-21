@@ -2000,10 +2000,10 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-cropperjs@^1.5.10:
-  version "1.5.10"
-  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.10.tgz#ac0c240feb2a3b397ef52b57c03375cd17041a8e"
-  integrity sha512-Zlggv+unsBXVc7EQip6rnOqFnFpHOIc4f8HqzAj3RQNEUNjrCCJyE7OlT/V8S0lO2m4ytRoceTlgzEh1DNMU0Q==
+cropperjs@^1.5.13:
+  version "1.5.13"
+  resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-1.5.13.tgz#eb1682f01d17c70ed5244317091d745c9a249ef8"
+  integrity sha512-by7jKAo73y5/Do0K6sxdTKHgndY0NMjG2bEdgeJxycbcmHuCiMXqw8sxy5C5Y5WTOTcDGmbT7Sr5CgKOXR06OA==
 
 cross-spawn@^6.0.5:
   version "6.0.5"
